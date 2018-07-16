@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Login app for CWDS-CARES",
   "engines": {
-    "npm": ">=3"
+    "node": ">=8.0.0"
   },
   "scripts": {
     "preinstall": "node tools/nodeVersionCheck.js",
@@ -62,9 +62,13 @@
     "css-loader": "0.28.7",
     "enzyme": "3.0.0",
     "enzyme-adapter-react-16": "1.0.0",
-    "eslint": "4.2.0",
-    "eslint-plugin-import": "2.7.0",
-    "eslint-plugin-react": "7.3.0",
+    "eslint": "4.19.1",
+    "eslint-config-standard": "11.0.0",
+    "eslint-plugin-import": "2.13.0",
+    "eslint-plugin-node": "6.0.1",
+    "eslint-plugin-promise": "3.8.0",
+    "eslint-plugin-react": "7.10.0",
+    "eslint-plugin-standard": "3.1.0",
     "eslint-watch": "3.1.2",
     "extract-text-webpack-plugin": "4.0.0-beta.0",
     "file-loader": "1.1.11",
@@ -153,34 +157,5 @@
         ]
       }
     }
-  },
-  "eslintConfig": {
-    "root": true,
-    "extends": [
-      "eslint:recommended",
-      "plugin:import/errors",
-      "plugin:import/warnings",
-      "plugin:react/recommended"
-    ],
-    "plugins": [
-      "react"
-    ],
-    "parser": "babel-eslint",
-    "parserOptions": {
-      "ecmaVersion": 6,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "jsx": true,
-        "experimentalObjectRestSpread": true
-      }
-    },
-    "env": {
-      "es6": true,
-      "browser": true,
-      "node": true,
-      "jquery": true,
-      "jest": true
-    },
-    "globals": {}
   }
 }
