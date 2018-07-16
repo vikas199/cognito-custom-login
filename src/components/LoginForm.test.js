@@ -1,187 +1,186 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import LoginForm from './LoginForm';
-import ErrorMessage from './ErrorMessage';
+import React from 'react'
+import { shallow } from 'enzyme'
+import LoginForm from './LoginForm'
+import ErrorMessage from './ErrorMessage'
 
-describe('LoginForm.js Tests', () => {  
-    it('should require correct params', () => {
-        let mock = jest.fn();
-        // eslint-disable-next-line no-console
-        console.error = mock;
+describe('LoginForm.js Tests', () => {
+  it('should require correct params', () => {
+    let mock = jest.fn()
+    // eslint-disable-next-line no-console
+    console.error = mock
 
-        shallow(<LoginForm/>);
-        
-        expect(mock).toHaveBeenCalledTimes(5);
-        let concat = [].concat(...mock.mock.calls);
+    shallow(<LoginForm/>)
 
-        expect(concat.some((element) => { return element.includes("`onSubmit` is marked as required") })).toBe(true);
-        expect(concat.some((element) => { return element.includes("`email` is marked as required") })).toBe(true);
-        expect(concat.some((element) => { return element.includes("`password` is marked as required") })).toBe(true);
-        expect(concat.some((element) => { return element.includes("`onEmailChange` is marked as required") })).toBe(true);
-        expect(concat.some((element) => { return element.includes("`onPasswordChange` is marked as required") })).toBe(true);
-    });
+    expect(mock).toHaveBeenCalledTimes(5)
+    let concat = [].concat(...mock.mock.calls)
 
-    it('should display `Log In` at top', () => {
-        const wrapper = shallow(<LoginForm/>);
+    expect(concat.some((element) => { return element.includes('`onSubmit` is marked as required') })).toBe(true)
+    expect(concat.some((element) => { return element.includes('`email` is marked as required') })).toBe(true)
+    expect(concat.some((element) => { return element.includes('`password` is marked as required') })).toBe(true)
+    expect(concat.some((element) => { return element.includes('`onEmailChange` is marked as required') })).toBe(true)
+    expect(concat.some((element) => { return element.includes('`onPasswordChange` is marked as required') })).toBe(true)
+  })
 
-        let h1 = wrapper.find('h1');
+  it('should display `Log In` at top', () => {
+    const wrapper = shallow(<LoginForm/>)
 
-        expect(h1).toHaveLength(1);
-        expect(h1.text()).toEqual('Log In');
-    });
+    let h1 = wrapper.find('h1')
 
-    it('should pass errorMsg to <ErrorMessage>', () => {
-        let mock = jest.fn();
-        const wrapper = shallow(<LoginForm 
-                                    email="a" 
-                                    passowrd="thepassword" 
-                                    onSubmit={mock} 
-                                    onEmailChange={mock}
-                                    onPasswordChange={mock}
-                                    errorMsg="some_message"/>);
+    expect(h1).toHaveLength(1)
+    expect(h1.text()).toEqual('Log In')
+  })
 
-        let errorMessageTag = wrapper.find(ErrorMessage);
-        expect(errorMessageTag).toHaveLength(1);
-        expect(errorMessageTag.props().msg).toEqual('some_message');
-    });
+  it('should pass errorMsg to <ErrorMessage>', () => {
+    let mock = jest.fn()
+    const wrapper = shallow(<LoginForm
+      email="a"
+      passowrd="thepassword"
+      onSubmit={mock}
+      onEmailChange={mock}
+      onPasswordChange={mock}
+      errorMsg="some_message"/>)
 
-    describe('email input Tests', () => {  
-        let mock = jest.fn();
-        let mockToVerify = jest.fn();
-        let wrapper =  shallow(<LoginForm 
-            email="a@test.com" 
-            password="thepassword" 
-            onSubmit={mock} 
-            onEmailChange={mockToVerify}
-            onPasswordChange={mock}
-            errorMsg="some_message"/>);
+    let errorMessageTag = wrapper.find(ErrorMessage)
+    expect(errorMessageTag).toHaveLength(1)
+    expect(errorMessageTag.props().msg).toEqual('some_message')
+  })
 
-        afterEach(() => {    
-            mockToVerify.mockReset();
-        });
+  describe('email input Tests', () => {
+    let mock = jest.fn()
+    let mockToVerify = jest.fn()
+    let wrapper = shallow(<LoginForm
+      email="a@test.com"
+      password="thepassword"
+      onSubmit={mock}
+      onEmailChange={mockToVerify}
+      onPasswordChange={mock}
+      errorMsg="some_message"/>)
 
-        it('contains label', () => {
-            let label = wrapper.find('label');
+    afterEach(() => {
+      mockToVerify.mockReset()
+    })
 
-            expect(label).toHaveLength(2);
-            expect(label.at(0).text()).toEqual('Email');
-        });
+    it('contains label', () => {
+      let label = wrapper.find('label')
 
-        it('contains text input for email', () => {
-            let input = wrapper.find('input');
+      expect(label).toHaveLength(2)
+      expect(label.at(0).text()).toEqual('Email')
+    })
 
-            expect(input).toHaveLength(2);
-            expect(input.at(0).props().id).toEqual('email');
-            expect(input.at(0).props().placeholder).toEqual('Email');
-        });
+    it('contains text input for email', () => {
+      let input = wrapper.find('input')
 
-        it('lets component manage email value', () => {
-            let input = wrapper.find('input');
+      expect(input).toHaveLength(2)
+      expect(input.at(0).props().id).toEqual('email')
+      expect(input.at(0).props().placeholder).toEqual('Email')
+    })
 
-            expect(input).toHaveLength(2);
-            expect(input.at(0).props().value).toEqual('a@test.com');
-        });
+    it('lets component manage email value', () => {
+      let input = wrapper.find('input')
 
-        
-        it('has type of text', () => {
-            let input = wrapper.find('input');
+      expect(input).toHaveLength(2)
+      expect(input.at(0).props().value).toEqual('a@test.com')
+    })
 
-            expect(input).toHaveLength(2);
-            expect(input.at(0).props().type).toEqual('text');
-        });
+    it('has type of text', () => {
+      let input = wrapper.find('input')
 
-        it('calls correct callback onChange', () => {
-            let input = wrapper.find('input');
+      expect(input).toHaveLength(2)
+      expect(input.at(0).props().type).toEqual('text')
+    })
 
-            expect(input).toHaveLength(2);
-            expect(input.at(0).props().onChange).toEqual(mockToVerify);
-        }); 
-    });
-    
-    describe('password input Tests', () => { 
-        let mock = jest.fn();
-        let mockToVerify = jest.fn();
-        let wrapper =  shallow(<LoginForm 
-            email="a@test.com" 
-            password="thepassword" 
-            onSubmit={mock} 
-            onEmailChange={mock}
-            onPasswordChange={mockToVerify}
-            errorMsg="some_message"/>);
+    it('calls correct callback onChange', () => {
+      let input = wrapper.find('input')
 
-        afterEach(() => {    
-            mockToVerify.mockReset();
-        });
+      expect(input).toHaveLength(2)
+      expect(input.at(0).props().onChange).toEqual(mockToVerify)
+    })
+  })
 
-        it('contains label', () => {
-            let label = wrapper.find('label');
+  describe('password input Tests', () => {
+    let mock = jest.fn()
+    let mockToVerify = jest.fn()
+    let wrapper = shallow(<LoginForm
+      email="a@test.com"
+      password="thepassword"
+      onSubmit={mock}
+      onEmailChange={mock}
+      onPasswordChange={mockToVerify}
+      errorMsg="some_message"/>)
 
-            expect(label).toHaveLength(2);
-            expect(label.at(1).text()).toEqual('Password');
-        });
+    afterEach(() => {
+      mockToVerify.mockReset()
+    })
 
-        it('contains text input for password', () => {
-            let input = wrapper.find('input');
+    it('contains label', () => {
+      let label = wrapper.find('label')
 
-            expect(input).toHaveLength(2);
-            expect(input.at(1).props().id).toEqual('password');
-            expect(input.at(1).props().placeholder).toEqual('Password');
-        });
+      expect(label).toHaveLength(2)
+      expect(label.at(1).text()).toEqual('Password')
+    })
 
-        it('lets component manage password value', () => {
-            let input = wrapper.find('input');
+    it('contains text input for password', () => {
+      let input = wrapper.find('input')
 
-            expect(input).toHaveLength(2);
-            expect(input.at(1).props().value).toEqual('thepassword');
-        });
+      expect(input).toHaveLength(2)
+      expect(input.at(1).props().id).toEqual('password')
+      expect(input.at(1).props().placeholder).toEqual('Password')
+    })
 
-        it('has type of password', () => {
-            let input = wrapper.find('input');
+    it('lets component manage password value', () => {
+      let input = wrapper.find('input')
 
-            expect(input).toHaveLength(2);
-            expect(input.at(1).props().type).toEqual('password');
-        });
+      expect(input).toHaveLength(2)
+      expect(input.at(1).props().value).toEqual('thepassword')
+    })
 
-        it('calls correct callback onChange', () => {
-            let input = wrapper.find('input');
+    it('has type of password', () => {
+      let input = wrapper.find('input')
 
-            expect(input).toHaveLength(2);
-            expect(input.at(1).props().onChange).toEqual(mockToVerify);
-        }); 
-    });
+      expect(input).toHaveLength(2)
+      expect(input.at(1).props().type).toEqual('password')
+    })
 
-    describe('submit button Tests', () => {  
-        let mock = jest.fn();
-        let mockToVerify = jest.fn();
-        let wrapper =  shallow(<LoginForm 
-            email="a@test.com" 
-            password="thepassword" 
-            onSubmit={mockToVerify} 
-            onEmailChange={mock}
-            onPasswordChange={mock}
-            errorMsg="some_message"/>);
+    it('calls correct callback onChange', () => {
+      let input = wrapper.find('input')
 
-        afterEach(() => {    
-            mockToVerify.mockReset();
-        });
+      expect(input).toHaveLength(2)
+      expect(input.at(1).props().onChange).toEqual(mockToVerify)
+    })
+  })
 
-       it('contains submit button', () => {
-            let button = wrapper.find('button');
+  describe('submit button Tests', () => {
+    let mock = jest.fn()
+    let mockToVerify = jest.fn()
+    let wrapper = shallow(<LoginForm
+      email="a@test.com"
+      password="thepassword"
+      onSubmit={mockToVerify}
+      onEmailChange={mock}
+      onPasswordChange={mock}
+      errorMsg="some_message"/>)
 
-            expect(button).toHaveLength(1);
-        });
+    afterEach(() => {
+      mockToVerify.mockReset()
+    })
 
-        it('has correct text on submit button', () => {
-            let button = wrapper.find('button');
+    it('contains submit button', () => {
+      let button = wrapper.find('button')
 
-            expect(button.text()).toEqual('Sign In');
-        });
+      expect(button).toHaveLength(1)
+    })
 
-        it('calls correct callback onClick', () => {
-            let button = wrapper.find('button');
+    it('has correct text on submit button', () => {
+      let button = wrapper.find('button')
 
-            expect(button).toHaveLength(1);
-            expect(button.props().onClick).toEqual(mockToVerify);
-        }); 
-    });
-});
+      expect(button.text()).toEqual('Sign In')
+    })
+
+    it('calls correct callback onClick', () => {
+      let button = wrapper.find('button')
+
+      expect(button).toHaveLength(1)
+      expect(button.props().onClick).toEqual(mockToVerify)
+    })
+  })
+})

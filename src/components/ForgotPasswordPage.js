@@ -1,84 +1,82 @@
-import React, { Component } from 'react';
-import * as Auth from '../utils/Auth';
-import ForgotPasswordForm from './ForgotPasswordForm';
-import ResetPasswordForm from './ResetPasswordForm';
+import React, { Component } from 'react'
+import * as Auth from '../utils/Auth'
+import ForgotPasswordForm from './ForgotPasswordForm'
+import ResetPasswordForm from './ResetPasswordForm'
 
-//TODO - redirect_uri on the url?  save it to state
+// TODO - redirect_uri on the url?  save it to state
 class ForgotPasswordPage extends Component {
-  constructor(props, context) {
-   super(props, context);
+  constructor (props, context) {
+    super(props, context)
 
-   this.state = {
-    reseting: false,
-    email: '',
-    errorMsg: undefined
-  };
-   this.showResetArea = this.showResetArea.bind(this);
-   this.showError = this.showError.bind(this);
-   this.updateEmailState = this.updateEmailState.bind(this);
-   this.onEmailSubmit = this.onEmailSubmit.bind(this);
-   this.updateCodeState = this.updateCodeState.bind(this);
-   this.updateNewPasswordState = this.updateNewPasswordState.bind(this);
-   this.updateConfirmPasswordState = this.updateConfirmPasswordState.bind(this);
-   this.changePassword = this.changePassword.bind(this);
-   this.mask = this.mask.bind(this);
+    this.state = {
+      reseting: false,
+      email: '',
+      errorMsg: undefined
+    }
+    this.showResetArea = this.showResetArea.bind(this)
+    this.showError = this.showError.bind(this)
+    this.updateEmailState = this.updateEmailState.bind(this)
+    this.onEmailSubmit = this.onEmailSubmit.bind(this)
+    this.updateCodeState = this.updateCodeState.bind(this)
+    this.updateNewPasswordState = this.updateNewPasswordState.bind(this)
+    this.updateConfirmPasswordState = this.updateConfirmPasswordState.bind(this)
+    this.changePassword = this.changePassword.bind(this)
+    this.mask = this.mask.bind(this)
   }
 
-  mask(email) {
+  mask (email) {
     return email.replace(/^(.)(.*)(.@.*)$/,
-        (_, a, b, c) => a + b.replace(/./g, '*') + c
-    );
+      (_, a, b, c) => a + b.replace(/./g, '*') + c
+    )
   }
 
-  onEmailSubmit() {
-    let showResetArea = this.showResetArea;
-    let showError = this.showError;
-    let cognitoUser = Auth.createUser(this.state);
+  onEmailSubmit () {
+    let showResetArea = this.showResetArea
+    let showError = this.showError
+    let cognitoUser = Auth.createUser(this.state)
     this.setState({
       cognitoUser: cognitoUser
-    });
- 
+    })
 
     cognitoUser.forgotPassword({
-      onFailure: function(err) {
-        if(err.code === 'InvalidParameterException') {
-          showError('Email is required');
+      onFailure: function (err) {
+        if (err.code === 'InvalidParameterException') {
+          showError('Email is required')
         } else {
-          showError(err.message);         
+          showError(err.message)
         }
       },
-      inputVerificationCode() {
-        showResetArea();
+      inputVerificationCode () {
+        showResetArea()
       }
-    });
-    
+    })
   }
 
-  updateEmailState(event) {
+  updateEmailState (event) {
     this.setState({
       email: event.target.value
-    });
+    })
   }
 
-  updateCodeState(event) {
+  updateCodeState (event) {
     this.setState({
       code: event.target.value
-    });
+    })
   }
 
-  updateNewPasswordState(event) {
+  updateNewPasswordState (event) {
     this.setState({
       new_password: event.target.value
-    });
+    })
   }
 
-  updateConfirmPasswordState(event) {
+  updateConfirmPasswordState (event) {
     this.setState({
       confirm_password: event.target.value
-    });
+    })
   }
 
-  showResetArea() {
+  showResetArea () {
     this.setState({
       errorMsg: '',
       reseting: true,
@@ -86,63 +84,63 @@ class ForgotPasswordPage extends Component {
       code: '',
       new_password: '',
       confirm_password: ''
-    });
+    })
   }
 
-  showError(msg) {
+  showError (msg) {
     this.setState({
       errorMsg: msg
-    });
+    })
   }
 
-  changePassword() {
-    let showError = this.showError;
-    let cognitoUser = this.state.cognitoUser;
-    let props = this.props;
+  changePassword () {
+    let showError = this.showError
+    let cognitoUser = this.state.cognitoUser
+    let props = this.props
     switch (this.state.confirm_password) {
       case this.state.new_password:
         cognitoUser.confirmPassword(this.state.code, this.state.new_password, {
-          onSuccess: function() {
-            props.history.push("/login");
+          onSuccess: function () {
+            props.history.push('/login')
           },
-          onFailure: function(err) {
-            showError(err.message);
+          onFailure: function (err) {
+            showError(err.message)
           }
-        });
-        break;
+        })
+        break
       default: {
         this.setState({
           code: '',
           new_password: '',
           confirm_password: ''
-        });
-        showError("Passwords do not match");
+        })
+        showError('Passwords do not match')
       }
     }
   }
 
-  render() {
-    if( this.state.reseting ) {
+  render () {
+    if (this.state.reseting) {
       return (
-      <ResetPasswordForm 
-        email={this.state.email}
-        errorMsg={this.state.errorMsg}
-        code={this.state.code}
-        new_password={this.state.new_password}
-        confirm_password={this.state.confirm_password}
-        onCodeChange={this.updateCodeState}
-        onNewPasswordChange={this.updateNewPasswordState}
-        onConfirmPasswordChange={this.updateConfirmPasswordState}
-        onSubmit={this.changePassword}/> );
+        <ResetPasswordForm
+          email={this.state.email}
+          errorMsg={this.state.errorMsg}
+          code={this.state.code}
+          new_password={this.state.new_password}
+          confirm_password={this.state.confirm_password}
+          onCodeChange={this.updateCodeState}
+          onNewPasswordChange={this.updateNewPasswordState}
+          onConfirmPasswordChange={this.updateConfirmPasswordState}
+          onSubmit={this.changePassword}/>)
     } else {
       return (
-        <ForgotPasswordForm 
+        <ForgotPasswordForm
           errorMsg={this.state.errorMsg}
           email={this.state.email}
           onChange={this.updateEmailState}
-          onSubmit={this.onEmailSubmit}/> );
+          onSubmit={this.onEmailSubmit}/>)
     }
   }
 }
 
-export default ForgotPasswordPage;
+export default ForgotPasswordPage
