@@ -17,8 +17,8 @@ describe('ResetPasswordForm.js Tests', () => {
 
     expect(concat.some((element) => { return element.includes('`email` is marked as required') })).toBe(true)
     expect(concat.some((element) => { return element.includes('`code` is marked as required') })).toBe(true)
-    expect(concat.some((element) => { return element.includes('`new_password` is marked as required') })).toBe(true)
-    expect(concat.some((element) => { return element.includes('`confirm_password` is marked as required') })).toBe(true)
+    expect(concat.some((element) => { return element.includes('`newPassword` is marked as required') })).toBe(true)
+    expect(concat.some((element) => { return element.includes('`confirmPassword` is marked as required') })).toBe(true)
     expect(concat.some((element) => { return element.includes('`onCodeChange` is marked as required') })).toBe(true)
     expect(concat.some((element) => { return element.includes('`onNewPasswordChange` is marked as required') })).toBe(true)
     expect(concat.some((element) => { return element.includes('`onConfirmPasswordChange` is marked as required') })).toBe(true)
@@ -57,7 +57,7 @@ describe('ResetPasswordForm.js Tests', () => {
   describe('code input Tests', () => {
     let mockToVerify = jest.fn()
     let mock = jest.fn()
-    let wrapper = shallow(<ResetPasswordForm email="a@test.com" code="the_code" new_password="" confirm_password=""
+    let wrapper = shallow(<ResetPasswordForm email="a@test.com" code="the_code" newPassword="" confirmPassword=""
       onCodeChange={mockToVerify} onNewPasswordChange={mock} onConfirmPasswordChange={mock} onSubmit={mock}/>)
 
     afterEach(() => {
@@ -103,7 +103,7 @@ describe('ResetPasswordForm.js Tests', () => {
   describe('new password input Tests', () => {
     let mockToVerify = jest.fn()
     let mock = jest.fn()
-    let wrapper = shallow(<ResetPasswordForm email="a@test.com" code="the_code" new_password="new_password" confirm_password=""
+    let wrapper = shallow(<ResetPasswordForm email="a@test.com" code="the_code" newPassword="new_password" confirmPassword=""
       onCodeChange={mock} onNewPasswordChange={mockToVerify} onConfirmPasswordChange={mock} onSubmit={mock}/>)
 
     afterEach(() => {
@@ -149,7 +149,7 @@ describe('ResetPasswordForm.js Tests', () => {
   describe('confirm password input Tests', () => {
     let mockToVerify = jest.fn()
     let mock = jest.fn()
-    let wrapper = shallow(<ResetPasswordForm email="a@test.com" code="the_code" new_password="new_password" confirm_password="confirm_password"
+    let wrapper = shallow(<ResetPasswordForm email="a@test.com" code="the_code" newPassword="new_password" confirmPassword="confirm_password"
       onCodeChange={mock} onNewPasswordChange={mock} onConfirmPasswordChange={mockToVerify} onSubmit={mock}/>)
 
     afterEach(() => {
@@ -195,7 +195,7 @@ describe('ResetPasswordForm.js Tests', () => {
   describe('submit button Tests', () => {
     let mockToVerify = jest.fn()
     let mock = jest.fn()
-    let wrapper = shallow(<ResetPasswordForm email="a@test.com" code="the_code" new_password="new_password" confirm_password="confirm_password"
+    let wrapper = shallow(<ResetPasswordForm email="a@test.com" code="the_code" newPassword="new_password" confirmPassword="confirm_password"
       onCodeChange={mock} onNewPasswordChange={mock} onConfirmPasswordChange={mock} onSubmit={mockToVerify}/>)
 
     afterEach(() => {

@@ -40,4 +40,9 @@ ResetPasswordForm.propTypes = {
   onSubmit: PropTypes.func.isRequired
 }
 
+// ResetPasswordForm.defaultProps = {
+//   newPassword: '',
+//   confirmPassword: ''
+// }
+
 export default ResetPasswordForm
