@@ -86,8 +86,8 @@ describe('LoginPage.js Tests', () => {
 
   describe('validate Tests', () => {
     it('calls cognitoUser.sendCustomChallengeAnswer with correct value', () => {
-      let sendCustomChallengeAnswer = jest.fn()
-      let cognitoUser = {
+      const sendCustomChallengeAnswer = jest.fn()
+      const cognitoUser = {
         deviceKey: 'device_key',
         sendCustomChallengeAnswer: sendCustomChallengeAnswer
       }
@@ -105,12 +105,12 @@ describe('LoginPage.js Tests', () => {
     })
 
     it('calls showError when error', () => {
-      let mockShowError = jest.fn()
+      const mockShowError = jest.fn()
 
-      let sendCustomChallengeAnswer = (response, callback) => {
+      const sendCustomChallengeAnswer = (response, callback) => {
         callback.onFailure()
       }
-      let cognitoUser = {
+      const cognitoUser = {
         deviceKey: 'device_key',
         sendCustomChallengeAnswer: sendCustomChallengeAnswer
       }
@@ -129,9 +129,9 @@ describe('LoginPage.js Tests', () => {
   })
 
   describe('login Tests', () => {
-    let mockAuthenticateUserDefaultAuth = jest.fn()
-    let mockSendCustomChallengeAnswer = jest.fn()
-    let mockSetAuthenticationFlowType = jest.fn()
+    const mockAuthenticateUserDefaultAuth = jest.fn()
+    const mockSendCustomChallengeAnswer = jest.fn()
+    const mockSetAuthenticationFlowType = jest.fn()
     let cognitoUser = {
       authenticateUserDefaultAuth: mockAuthenticateUserDefaultAuth,
       sendCustomChallengeAnswer: mockSendCustomChallengeAnswer,
@@ -139,7 +139,7 @@ describe('LoginPage.js Tests', () => {
       deviceKey: 'device_key'
     }
 
-    let mockAuthCreateUser = jest.fn()
+    const mockAuthCreateUser = jest.fn()
 
     Auth.createUser = mockAuthCreateUser
 
@@ -182,13 +182,13 @@ describe('LoginPage.js Tests', () => {
     })
 
     it('displays email is required if InvalidParameter', () => {
-      let mockShowError = jest.fn()
+      const mockShowError = jest.fn()
 
       const wrapper = shallow(<LoginPage />)
       cognitoUser.authenticateUserDefaultAuth = (details, callback) => {
         callback.onFailure({code: 'InvalidParameterException', message: 'some_message'})
       }
-      let instance = wrapper.instance()
+      const instance = wrapper.instance()
       instance.showError = mockShowError
       instance.login()
 
@@ -197,13 +197,13 @@ describe('LoginPage.js Tests', () => {
     })
 
     it('displays given msg if not InvalidParameter', () => {
-      let mockShowError = jest.fn()
+      const mockShowError = jest.fn()
 
       const wrapper = shallow(<LoginPage />)
       cognitoUser.authenticateUserDefaultAuth = (details, callback) => {
         callback.onFailure({code: 'something', message: 'some_message'})
       }
-      let instance = wrapper.instance()
+      const instance = wrapper.instance()
       instance.showError = mockShowError
       instance.login()
 
@@ -213,7 +213,7 @@ describe('LoginPage.js Tests', () => {
 
     describe('customChallenge Tests', () => {
       it('calls showError on Error', () => {
-        let mockShowError = jest.fn()
+        const mockShowError = jest.fn()
 
         const wrapper = shallow(<LoginPage />)
         cognitoUser.authenticateUserDefaultAuth = (details, callback) => {
@@ -222,7 +222,7 @@ describe('LoginPage.js Tests', () => {
         cognitoUser.sendCustomChallengeAnswer = (details, callback) => {
           callback.onFailure({code: 'somecode', message: 'some_message'})
         }
-        let instance = wrapper.instance()
+        const instance = wrapper.instance()
         instance.showError = mockShowError
         instance.login()
 
@@ -233,10 +233,10 @@ describe('LoginPage.js Tests', () => {
       it('calls sendToRedirectUri when success', () => {
         const mockSetCognitoToken = jest.fn()
 
-        let sendCustomChallengeAnswer = (response, callback) => {
+        const sendCustomChallengeAnswer = (response, callback) => {
           callback.onSuccess()
         }
-        let cognitoUser = {
+        const cognitoUser = {
           deviceKey: 'device_key',
           sendCustomChallengeAnswer: sendCustomChallengeAnswer
         }
@@ -248,14 +248,14 @@ describe('LoginPage.js Tests', () => {
           }
         )
 
-        let instance = wrapper.instance()
+        const instance = wrapper.instance()
         instance.setCognitoToken = mockSetCognitoToken
         instance.validate()
         expect(mockSetCognitoToken.mock.calls.length).toEqual(1)
       })
 
       it('calls sendToRedirectUri', () => {
-        let mockSendToRedirectUri = jest.fn()
+        const mockSendToRedirectUri = jest.fn()
         const wrapper = shallow(<LoginPage />)
         cognitoUser.authenticateUserDefaultAuth = (details, callback) => {
           callback.customChallenge()
@@ -264,7 +264,7 @@ describe('LoginPage.js Tests', () => {
           callback.onSuccess()
         }
 
-        let instance = wrapper.instance()
+        const instance = wrapper.instance()
         instance.sendToRedirectUri = mockSendToRedirectUri
         instance.login()
 
@@ -273,7 +273,7 @@ describe('LoginPage.js Tests', () => {
       })
 
       it('shows validation area', () => {
-        let mockShowValidationArea = jest.fn()
+        const mockShowValidationArea = jest.fn()
         const wrapper = shallow(<LoginPage />)
         cognitoUser.authenticateUserDefaultAuth = (details, callback) => {
           callback.customChallenge()
@@ -282,7 +282,7 @@ describe('LoginPage.js Tests', () => {
           callback.customChallenge({maskedEmail: 'someEmail'})
         }
 
-        let instance = wrapper.instance()
+        const instance = wrapper.instance()
         instance.showValidationArea = mockShowValidationArea
         instance.login()
 
