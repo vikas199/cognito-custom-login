@@ -5,6 +5,8 @@ import LoginForm from './LoginForm'
 import MfaForm from './MfaForm'
 import * as Auth from '../utils/Auth'
 
+const perryLoginUrl = 'https://web.integration.cwds.io/perry/login'
+
 // TODO - redirect_uri on the url?  save it to state
 class LoginPage extends Component {
   constructor (props, context) {
@@ -15,7 +17,8 @@ class LoginPage extends Component {
       errorMsg: undefined,
       email: '',
       password: '',
-      code: ''
+      code: '',
+      cognitoJson: '{}'
     }
     this.login = this.login.bind(this)
     this.validate = this.validate.bind(this)
@@ -25,6 +28,8 @@ class LoginPage extends Component {
     this.updatePasswordState = this.updatePasswordState.bind(this)
     this.updateCodeState = this.updateCodeState.bind(this)
     this.sendToRedirectUri = this.sendToRedirectUri.bind(this)
+    this.setCognitoToken = this.setCognitoToken.bind(this)
+    this.submitFormToPerry = this.submitFormToPerry.bind(this)
   }
 
   updateCodeState (event) {
@@ -52,6 +57,15 @@ class LoginPage extends Component {
     })
   }
 
+  setCognitoToken (token) {
+    this.setState({cognitoJson: token})
+    this.submitFormToPerry()
+  }
+
+  submitFormToPerry () {
+    document.getElementById('login-form').submit()
+  }
+
   showError (msg) {
     this.setState({
       validating: false,
@@ -63,7 +77,6 @@ class LoginPage extends Component {
   }
 
   sendToRedirectUri (result) {
-    console.log(result)
     // TODO - this is where the integration with Perry is.
     const parsed = qs.parse(window.location.search)
     // FOR NOW JUST SEND TO PAGE
@@ -76,9 +89,12 @@ class LoginPage extends Component {
     let sendToRedirectUri = this.sendToRedirectUri
     let challengeResponses = this.state.code + ' ' + cognitoUser.deviceKey
     let showError = this.showError
+
+    let setCognitoToken = this.setCognitoToken
     cognitoUser.sendCustomChallengeAnswer(challengeResponses, {
       onSuccess: function (result) {
-        sendToRedirectUri(result)
+        // sendToRedirectUri(result)
+        setCognitoToken(JSON.stringify(result))
       },
       onFailure: function () {
         showError('Unable to verify account')
@@ -125,22 +141,29 @@ class LoginPage extends Component {
   }
 
   render () {
+    const comp = this.state.validating
+      ? <MfaForm
+        maskedEmail={this.state.maskedEmail}
+        code={this.state.code}
+        onCodeChange={this.updateCodeState}
+        onValidate={this.validate} />
+      : <LoginForm
+        onSubmit={this.login}
+        errorMsg={this.state.errorMsg}
+        email={this.state.email}
+        password={this.state.password}
+        onEmailChange={this.updateEmailState}
+        onPasswordChange={this.updatePasswordState} />
+
     return (
       <React.Fragment>
-        {this.state.validating
-          ? <MfaForm
-            maskedEmail={this.state.maskedEmail}
-            code={this.state.code}
-            onCodeChange={this.updateCodeState}
-            onValidate={this.validate} />
-          : <LoginForm
-            onSubmit={this.login}
-            errorMsg={this.state.errorMsg}
-            email={this.state.email}
-            password={this.state.password}
-            onEmailChange={this.updateEmailState}
-            onPasswordChange={this.updatePasswordState} />
-        }
+        {comp}
+        <form id='login-form' action={perryLoginUrl} method='post'>
+          <input
+            type='hidden'
+            name="CognitoResponse"
+            value={this.state.cognitoJson} />
+        </form>
       </React.Fragment>
     )
   }

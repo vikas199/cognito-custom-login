@@ -27,6 +27,12 @@ describe('LoginPage.js Tests', () => {
     expect(wrapper.find(MfaForm).length).toEqual(1)
   })
 
+  it('should contain form', () => {
+    const wrapper = shallow(<LoginPage/>)
+
+    expect(wrapper.find('#login-form').length).toEqual(1)
+  })
+
   it('sets code on updateCodeState', () => {
     const wrapper = shallow(<LoginPage />)
 
@@ -73,7 +79,8 @@ describe('LoginPage.js Tests', () => {
       maskedEmail: undefined,
       errorMsg: 'msg',
       email: '',
-      password: ''
+      password: '',
+      cognitoJson: '{}'
     })
   })
 
@@ -119,30 +126,6 @@ describe('LoginPage.js Tests', () => {
       expect(mockShowError.mock.calls.length).toEqual(1)
       expect(mockShowError.mock.calls[0][0]).toEqual('Unable to verify account')
     })
-
-    it('calls sendToRedirectUri when success', () => {
-      let mockSendToRedirectUri = jest.fn()
-
-      let sendCustomChallengeAnswer = (response, callback) => {
-        callback.onSuccess()
-      }
-      let cognitoUser = {
-        deviceKey: 'device_key',
-        sendCustomChallengeAnswer: sendCustomChallengeAnswer
-      }
-      const wrapper = shallow(<LoginPage />)
-      wrapper.setState(
-        {
-          cognitoUser: cognitoUser,
-          code: 'some_code'
-        }
-      )
-
-      let instance = wrapper.instance()
-      instance.sendToRedirectUri = mockSendToRedirectUri
-      instance.validate()
-      expect(mockSendToRedirectUri.mock.calls.length).toEqual(1)
-    })
   })
 
   describe('login Tests', () => {
@@ -158,8 +141,7 @@ describe('LoginPage.js Tests', () => {
 
     let mockAuthCreateUser = jest.fn()
 
-    // eslint-disable-next-line
-        Auth.createUser = mockAuthCreateUser;
+    Auth.createUser = mockAuthCreateUser
 
     beforeEach(() => {
       cognitoUser = {
@@ -249,7 +231,7 @@ describe('LoginPage.js Tests', () => {
       })
 
       it('calls sendToRedirectUri when success', () => {
-        let mockSendToRedirectUri = jest.fn()
+        const mockSetCognitoToken = jest.fn()
 
         let sendCustomChallengeAnswer = (response, callback) => {
           callback.onSuccess()
@@ -267,9 +249,9 @@ describe('LoginPage.js Tests', () => {
         )
 
         let instance = wrapper.instance()
-        instance.sendToRedirectUri = mockSendToRedirectUri
+        instance.setCognitoToken = mockSetCognitoToken
         instance.validate()
-        expect(mockSendToRedirectUri.mock.calls.length).toEqual(1)
+        expect(mockSetCognitoToken.mock.calls.length).toEqual(1)
       })
 
       it('calls sendToRedirectUri', () => {
