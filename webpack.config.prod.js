@@ -12,8 +12,6 @@ const GLOBALS = {
   __DEV__: false
 }
 
-console.log('-----------------' + process.env.ENV_PATH)
-
 export default {
   resolve: {
     extensions: ['*', '.js', '.jsx', '.json']

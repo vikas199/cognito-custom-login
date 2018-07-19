@@ -3,8 +3,8 @@ import {AuthenticationDetails, CognitoUserPool, CognitoUser} from 'amazon-cognit
 export function createUser (state) {
   let username = state.email
   var poolData = {
-    UserPoolId: 'us-west-2_bUtASxUz6',
-    ClientId: '2a1df1v8br60i52qofi4qmkj2k'
+    UserPoolId: process.env.USER_POOL_ID,
+    ClientId: process.env.CLIENT_ID
   }
   var userPool = new CognitoUserPool(poolData)
   var userData = {

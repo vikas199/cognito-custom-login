@@ -3,10 +3,16 @@ import * as Auth from './Auth'
 describe('Auth.js Tests', () => {
   describe('createUser Tests', () => {
     it('sets username correctly on cognitoUser', () => {
+      process.env.USER_POOL_ID = 'us-west-2_blah'
+      process.env.CLIENT_ID = 'test'
+
       let cognitoUser = Auth.createUser({email: 'a@test.com'})
 
       // assert
       expect(cognitoUser.getUsername()).toEqual('a@test.com')
+
+      delete process.env.USER_POOL_ID
+      delete process.env.CLIENT_ID
     })
   })
 
