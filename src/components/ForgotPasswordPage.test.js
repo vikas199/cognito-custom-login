@@ -20,6 +20,10 @@ describe('ForgotPasswordPage.js Tests', () => {
   })
 
   it('should contain <ResetPasswordForm>', () => {
+    let mock = jest.fn()
+
+    // eslint-disable-next-line no-console
+    console.error = mock
     const wrapper = shallow(<ForgotPasswordPage />)
 
     wrapper.setState({ reseting: true, code: 'code', new_password: 'abc', confirm_password: 'def' })
@@ -63,6 +67,10 @@ describe('ForgotPasswordPage.js Tests', () => {
   })
 
   it('sets up correctly when showing reset area', () => {
+    let mock = jest.fn()
+
+    // eslint-disable-next-line no-console
+    console.error = mock
     const wrapper = shallow(<ForgotPasswordPage />)
     wrapper.setState({reseting: false, maskedEmail: ''})
     wrapper.instance().setState({email: 'abcdef@domain.com'})

@@ -3,13 +3,14 @@ import { shallow } from 'enzyme'
 import LoginPage from './LoginPage'
 import LoginForm from './LoginForm'
 import MfaForm from './MfaForm'
+import NewPasswordRequiredForm from './NewPasswordRequiredForm'
 import * as Auth from '../utils/Auth'
 
 describe('LoginPage.js Tests', () => {
-  it('should have validating=false by default', () => {
+  it('should have mode of login by default', () => {
     const wrapper = shallow(<LoginPage/>)
 
-    expect(wrapper.state().validating).toEqual(false)
+    expect(wrapper.state().mode).toEqual(1)
   })
 
   it('should contain <LoginForm> by default', () => {
@@ -22,9 +23,18 @@ describe('LoginPage.js Tests', () => {
   it('should contain <MfaForm>', () => {
     const wrapper = shallow(<LoginPage />)
 
-    wrapper.setState({ validating: true })
+    wrapper.setState({ mode: 2 })
     expect(wrapper.find(LoginForm).length).toEqual(0)
     expect(wrapper.find(MfaForm).length).toEqual(1)
+  })
+
+  it('should contain <NewPasswordRequiredForm>', () => {
+    const wrapper = shallow(<LoginPage />)
+
+    wrapper.setState({ mode: 3 })
+    expect(wrapper.find(LoginForm).length).toEqual(0)
+    expect(wrapper.find(MfaForm).length).toEqual(0)
+    expect(wrapper.find(NewPasswordRequiredForm).length).toEqual(1)
   })
 
   it('should contain form', () => {
@@ -33,39 +43,65 @@ describe('LoginPage.js Tests', () => {
     expect(wrapper.find('#login-form').length).toEqual(1)
   })
 
-  it('sets code on updateCodeState', () => {
+  it('sets code on input change', () => {
     const wrapper = shallow(<LoginPage />)
 
-    wrapper.instance().updateCodeState({ target: { value: 'the_code' } })
+    wrapper.instance().onInputChange({ target: { id: 'code', value: 'the_code' } })
     expect(wrapper.state().code).toEqual('the_code')
   })
 
-  it('sets email on updatEmailState', () => {
+  it('sets email on input change', () => {
     const wrapper = shallow(<LoginPage />)
 
-    wrapper.instance().updateEmailState({ target: { value: 'email' } })
+    wrapper.instance().onInputChange({ target: { id: 'email', value: 'email' } })
     expect(wrapper.state().email).toEqual('email')
   })
 
-  it('sets password on updatePasswordState', () => {
+  it('sets password on input change', () => {
     const wrapper = shallow(<LoginPage />)
 
-    wrapper.instance().updatePasswordState({ target: { value: 'password' } })
+    wrapper.instance().onInputChange({ target: { id: 'password', value: 'password' } })
     expect(wrapper.state().password).toEqual('password')
+  })
+
+  it('sets newPassword on input change', () => {
+    const wrapper = shallow(<LoginPage />)
+
+    wrapper.instance().onInputChange({ target: { id: 'newPassword', value: 'password' } })
+    expect(wrapper.state().newPassword).toEqual('password')
+  })
+
+  it('sets confirmPassoword on input change', () => {
+    const wrapper = shallow(<LoginPage />)
+
+    wrapper.instance().onInputChange({ target: { id: 'confirmPassword', value: 'password' } })
+    expect(wrapper.state().confirmPassword).toEqual('password')
   })
 
   it('sets up correctly when showing validation area', () => {
     const wrapper = shallow(<LoginPage />)
-    wrapper.setState({validating: false, maskedEmail: ''})
+    wrapper.setState({mode: 1, maskedEmail: ''})
     wrapper.instance().showValidationArea('a@test.com')
-    expect(wrapper.state().validating).toEqual(true)
+    expect(wrapper.state().mode).toEqual(2)
     expect(wrapper.state().maskedEmail).toEqual('a@test.com')
+  })
+
+  it('sets up correctly when unknown mode', () => {
+    const mockShowError = jest.fn()
+
+    const wrapper = shallow(<LoginPage />)
+
+    wrapper.instance().showError = mockShowError
+    wrapper.setState({mode: -1})
+
+    expect(mockShowError.mock.calls.length).toEqual(1)
+    expect(mockShowError.mock.calls[0][0]).toEqual('Unknown Request')
   })
 
   it('sets up correctly when showError', () => {
     const wrapper = shallow(<LoginPage />)
     wrapper.setState({
-      validating: true,
+      mode: 2,
       maskedEmail: 'somevalue',
       errorMsg: '',
       email: 'a@a.com',
@@ -75,12 +111,14 @@ describe('LoginPage.js Tests', () => {
     wrapper.instance().showError('msg')
     expect(wrapper.state()).toEqual({
       code: '',
-      validating: false,
+      mode: 1,
       maskedEmail: undefined,
       errorMsg: 'msg',
       email: '',
       password: '',
-      cognitoJson: '{}'
+      cognitoJson: '{}',
+      newPassword: '',
+      confirmPassword: ''
     })
   })
 
@@ -269,7 +307,6 @@ describe('LoginPage.js Tests', () => {
         instance.login()
 
         expect(mockSendToRedirectUri.mock.calls.length).toEqual(1)
-        // expect(mockSendToRedirectUri.mock.calls[0].length).toEqual(0)
       })
 
       it('shows validation area', () => {
@@ -288,6 +325,82 @@ describe('LoginPage.js Tests', () => {
 
         expect(mockShowValidationArea.mock.calls.length).toEqual(1)
         expect(mockShowValidationArea.mock.calls[0][0]).toEqual('someEmail')
+      })
+    })
+  })
+
+  describe('changePassword tests', () => {
+    it('shows error when passwords do not match', () => {
+      const mockShowError = jest.fn()
+      const wrapper = shallow(<LoginPage />)
+      wrapper.setState({ mode: 3,
+        confirmPassword: 'foo',
+        newPassword: 'bar' })
+
+      const instance = wrapper.instance()
+      instance.showError = mockShowError
+      instance.changePassword()
+
+      expect(wrapper.state().newPassword).toEqual('')
+      expect(wrapper.state().confirmPassword).toEqual('')
+      expect(mockShowError.mock.calls.length).toEqual(1)
+      expect(mockShowError.mock.calls[0][0]).toEqual('Passwords do not match')
+      expect(mockShowError.mock.calls[0][1]).toEqual(3)
+    })
+
+    describe('completeNewPasswordChallenge', () => {
+      const mockAuthenticateUserDefaultAuth = jest.fn()
+      const mockSendCustomChallengeAnswer = jest.fn()
+      const mockSetAuthenticationFlowType = jest.fn()
+      let cognitoUser = {
+        authenticateUserDefaultAuth: mockAuthenticateUserDefaultAuth,
+        sendCustomChallengeAnswer: mockSendCustomChallengeAnswer,
+        setAuthenticationFlowType: mockSetAuthenticationFlowType,
+        deviceKey: 'device_key'
+      }
+
+      it('handles failure', () => {
+        const mockShowError = jest.fn()
+        const wrapper = shallow(<LoginPage />)
+        cognitoUser.completeNewPasswordChallenge = (newPassword, details, callback) => {
+          callback.onFailure({message: 'some message'})
+        }
+
+        wrapper.setState(
+          {
+            cognitoUser: cognitoUser
+          }
+        )
+
+        const instance = wrapper.instance()
+        instance.showError = mockShowError
+        instance.changePassword()
+
+        expect(mockShowError.mock.calls.length).toEqual(1)
+        expect(mockShowError.mock.calls[0][0]).toEqual('some message')
+        expect(mockShowError.mock.calls[0][1]).toEqual(3)
+      })
+
+      it('handles success', () => {
+        const result = {foo: 'bar'}
+        const mockSetCognitoToken = jest.fn()
+        const wrapper = shallow(<LoginPage />)
+        cognitoUser.completeNewPasswordChallenge = (newPassword, details, callback) => {
+          callback.onSuccess(result)
+        }
+
+        wrapper.setState(
+          {
+            cognitoUser: cognitoUser
+          }
+        )
+
+        const instance = wrapper.instance()
+        instance.setCognitoToken = mockSetCognitoToken
+        instance.changePassword()
+
+        expect(mockSetCognitoToken.mock.calls.length).toEqual(1)
+        expect(mockSetCognitoToken.mock.calls[0][0]).toEqual(JSON.stringify(result))
       })
     })
   })
