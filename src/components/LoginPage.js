@@ -5,8 +5,6 @@ import LoginForm from './LoginForm'
 import MfaForm from './MfaForm'
 import * as Auth from '../utils/Auth'
 
-const perryLoginUrl = 'https://web.cogsandbox.cwds.io/perry/login'
-
 // TODO - redirect_uri on the url?  save it to state
 class LoginPage extends Component {
   constructor (props, context) {
@@ -141,6 +139,8 @@ class LoginPage extends Component {
   }
 
   render () {
+    const perryLoginUrl = `${process.env.PERRY_URL}/perry/login`
+
     const comp = this.state.validating
       ? <MfaForm
         maskedEmail={this.state.maskedEmail}
