@@ -5,7 +5,6 @@ import LoginForm from './LoginForm'
 import MfaForm from './MfaForm'
 import * as Auth from '../utils/Auth'
 
-// TODO - redirect_uri on the url?  save it to state
 class LoginPage extends Component {
   constructor (props, context) {
     super(props, context)
@@ -25,7 +24,6 @@ class LoginPage extends Component {
     this.updateEmailState = this.updateEmailState.bind(this)
     this.updatePasswordState = this.updatePasswordState.bind(this)
     this.updateCodeState = this.updateCodeState.bind(this)
-    this.sendToRedirectUri = this.sendToRedirectUri.bind(this)
     this.setCognitoToken = this.setCognitoToken.bind(this)
     this.submitFormToPerry = this.submitFormToPerry.bind(this)
   }
@@ -74,24 +72,14 @@ class LoginPage extends Component {
     })
   }
 
-  sendToRedirectUri (result) {
-    // TODO - this is where the integration with Perry is.
-    const parsed = qs.parse(window.location.search)
-    // FOR NOW JUST SEND TO PAGE
-    // INTEGRATION WITH PERRY WILL BE A REST CALL WITH RESULT
-    window.location.href = parsed.redirect_uri
-  }
-
   validate () {
     let cognitoUser = this.state.cognitoUser
-    let sendToRedirectUri = this.sendToRedirectUri
     let challengeResponses = this.state.code + ' ' + cognitoUser.deviceKey
     let showError = this.showError
 
     let setCognitoToken = this.setCognitoToken
     cognitoUser.sendCustomChallengeAnswer(challengeResponses, {
       onSuccess: function (result) {
-        // sendToRedirectUri(result)
         setCognitoToken(JSON.stringify(result))
       },
       onFailure: function () {
@@ -103,7 +91,7 @@ class LoginPage extends Component {
   login () {
     let showValidationArea = this.showValidationArea
     let showError = this.showError
-    let sendToRedirectUri = this.sendToRedirectUri
+    let setCognitoToken = this.setCognitoToken
 
     let cognitoUser = Auth.createUser(this.state)
     this.setState({
@@ -125,7 +113,7 @@ class LoginPage extends Component {
         challengeResponses = cognitoUser.deviceKey ? cognitoUser.deviceKey : 'null'
         cognitoUser.sendCustomChallengeAnswer(challengeResponses, {
           onSuccess: function (result) {
-            sendToRedirectUri(result)
+            setCognitoToken(JSON.stringify(result))
           },
           onFailure: function (err) {
             showError(err.message)
