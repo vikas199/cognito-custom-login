@@ -22,7 +22,6 @@ describe('ForgotPasswordPage.js Tests', () => {
   it('should contain <ResetPasswordForm>', () => {
     let mock = jest.fn()
 
-    // eslint-disable-next-line no-console
     console.error = mock
     const wrapper = shallow(<ForgotPasswordPage />)
 
