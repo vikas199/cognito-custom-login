@@ -4,12 +4,6 @@ body {
     background: #909090;
 }
 
-@media (min-width: 768px) {
-    .modal-dialog {
-        width: 700px;
-    }
-}
-
 .panel {
     padding-top: 15px;
     padding-bottom: 15px;
@@ -21,19 +15,11 @@ body {
 }
 
 .modal-content {
-    width: 100% !important;
+    width: 100%;
     margin: 0px auto;
     border: 0px;
-    overflow: hidden;
+    overflow: auto;
     border-radius: 0%;
-}
-
-.modal-content-mobile {
-    max-width: 350px;
-}
-
-.modal-content-desktop {
-    min-width: 700px;
 }
 
 .login-or {
