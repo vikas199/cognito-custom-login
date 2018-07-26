@@ -293,7 +293,7 @@ describe('LoginPage.js Tests', () => {
       })
 
       it('calls sendToRedirectUri', () => {
-        const mockSendToRedirectUri = jest.fn()
+        const mockSetCognitoToken = jest.fn()
         const wrapper = shallow(<LoginPage />)
         cognitoUser.authenticateUserDefaultAuth = (details, callback) => {
           callback.customChallenge()
@@ -303,7 +303,7 @@ describe('LoginPage.js Tests', () => {
         }
 
         const instance = wrapper.instance()
-        instance.sendToRedirectUri = mockSendToRedirectUri
+        instance.setCognitoToken = mockSetCognitoToken
         instance.login()
 
         expect(mockSendToRedirectUri.mock.calls.length).toEqual(1)

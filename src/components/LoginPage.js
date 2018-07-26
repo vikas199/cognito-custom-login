@@ -77,14 +77,6 @@ class LoginPage extends Component {
     })
   }
 
-  sendToRedirectUri (result) {
-    // TODO - this is where the integration with Perry is.
-    const parsed = qs.parse(window.location.search)
-    // FOR NOW JUST SEND TO PAGE
-    // INTEGRATION WITH PERRY WILL BE A REST CALL WITH RESULT
-    window.location.href = parsed.redirect_uri
-  }
-
   validate () {
     let cognitoUser = this.state.cognitoUser
     let challengeResponses = this.state.code + ' ' + cognitoUser.deviceKey
@@ -105,7 +97,7 @@ class LoginPage extends Component {
     let showValidationArea = this.showValidationArea
     let showNewPasswordRequiredArea = this.showNewPasswordRequiredArea
     let showError = this.showError
-    let sendToRedirectUri = this.sendToRedirectUri
+    let setCognitoToken = this.setCognitoToken
 
     let cognitoUser = Auth.createUser(this.state)
     this.setState({
@@ -130,7 +122,7 @@ class LoginPage extends Component {
         challengeResponses = cognitoUser.deviceKey ? cognitoUser.deviceKey : 'null'
         cognitoUser.sendCustomChallengeAnswer(challengeResponses, {
           onSuccess: function (result) {
-            sendToRedirectUri(result)
+            setCognitoToken(JSON.stringify(result))
           },
           onFailure: function (err) {
             showError(err.message)
