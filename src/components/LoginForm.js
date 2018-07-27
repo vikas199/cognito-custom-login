@@ -19,9 +19,11 @@ const LoginForm = ({onSubmit, errorMsg, email, password, onEmailChange, onPasswo
       <a className="redirect-customizable"
         href="/forgotPassword?redirect_uri=https://web.integration.cwds.io/perry/login&amp;response_type=code&amp;state=7DRlOO">Forgot
           your password?</a>
-
       <button className="btn btn-primary submitButton-customizable" type="button" onClick={onSubmit}>Sign In</button>
       <br/>
+      <br/>
+      <p className="Notice-This-system">Notice:
+This system is the property of the State of California and may be accessed only by authorized users. Unauthorized use of this system is strictly prohibited and may result in, but is not limited to, disciplinary action and criminal prosecution. The State of California may monitor any activity or communication on the system and retrieve any information stored within the system. By accessing and using this system, you are consenting to such monitoring and information retrieval for law enforcement and other purposes. Users have no expectation of privacy as to any communication on, or to any information stored within the system, or to any devices used to access this system.</p>
     </div>
   )
 }
