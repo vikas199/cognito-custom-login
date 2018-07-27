@@ -7,7 +7,7 @@ const Header = () => {
         <div className="banner-customizable">
           <center>
             <img className="logo-customizable"
-              src="https://dpp0gtxikpq3y.cloudfront.net/20180521182052/images/us-west-2_bUtASxUz6/ALL/images/image.jpg"/>
+              src="http://integration.cwds.io.s3-website-us-west-2.amazonaws.com/ALL/images/logo-lockup@2x.jpg"/>
           </center>
         </div>
       </div>

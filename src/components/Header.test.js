@@ -9,7 +9,7 @@ describe('ErrorMessage.js Tests', () => {
     let img = wrapper.find('img')
 
     expect(img).toHaveLength(1)
-    expect(img.at(0).props().src).toEqual('https://dpp0gtxikpq3y.cloudfront.net/20180521182052/images/us-west-2_bUtASxUz6/ALL/images/image.jpg')
+    expect(img.at(0).props().src).toEqual('http://integration.cwds.io.s3-website-us-west-2.amazonaws.com/ALL/images/logo-lockup@2x.jpg')
   })
 
   it('should center image', () => {
