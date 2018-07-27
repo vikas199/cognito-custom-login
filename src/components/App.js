@@ -15,16 +15,22 @@ class App extends React.Component {
   render () {
     return (
       <div className="container">
-        <div className="modal-dialog">
-          <div className="modal-content background-customizable modal-content-desktop visible-md visible-lg">
-            <Header/>
-            <div id="div-forms" className="modal-body">
-              <Switch>
-                <Route path="/login" component={LoginPage} />
-                <Route path="/forgotpassword" component={ForgotPasswordPage} />
-              </Switch>
+        <div className='row'>
+          <div className='col-xs-12 col-sm-12'>
+            <div className="modal-dialog">
+              <div className="modal-content background-customizable">
+                <Header/>
+                <div id="div-forms" className="modal-body">
+                  <Switch>
+                    <Route path="/login" component={LoginPage} />
+                    <Route path="/forgotpassword" component={ForgotPasswordPage} />
+                  </Switch>
+                </div>
+              </div>
             </div>
-          </div></div></div>
+          </div>
+        </div>
+      </div>
     )
   }
 }
