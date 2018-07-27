@@ -6,3 +6,5 @@ WORKDIR /coglogin
 
 RUN cd /coglogin \
   && yarn install 
+
+CMD sleep 120
