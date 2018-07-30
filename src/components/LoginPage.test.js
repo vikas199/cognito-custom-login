@@ -268,7 +268,7 @@ describe('LoginPage.js Tests', () => {
         expect(mockShowError.mock.calls[0][0]).toEqual('some_message')
       })
 
-      it('calls sendToRedirectUri when success', () => {
+      it('calls setCognitoToken when success', () => {
         const mockSetCognitoToken = jest.fn()
 
         const sendCustomChallengeAnswer = (response, callback) => {
@@ -306,7 +306,7 @@ describe('LoginPage.js Tests', () => {
         instance.setCognitoToken = mockSetCognitoToken
         instance.login()
 
-        expect(mockSendToRedirectUri.mock.calls.length).toEqual(1)
+        expect(mockSetCognitoToken.mock.calls.length).toEqual(1)
       })
 
       it('shows validation area', () => {

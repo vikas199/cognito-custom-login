@@ -31,7 +31,6 @@ class LoginPage extends Component {
     this.showValidationArea = this.showValidationArea.bind(this)
     this.showError = this.showError.bind(this)
     this.onInputChange = this.onInputChange.bind(this)
-    this.sendToRedirectUri = this.sendToRedirectUri.bind(this)
     this.setCognitoToken = this.setCognitoToken.bind(this)
     this.submitFormToPerry = this.submitFormToPerry.bind(this)
     this.changePassword = this.changePassword.bind(this)
