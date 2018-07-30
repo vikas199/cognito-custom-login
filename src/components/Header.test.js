@@ -10,7 +10,6 @@ describe('ErrorMessage.js Tests', () => {
     let img = wrapper.find('img')
 
     expect(img).toHaveLength(1)
-    // console.log(img.at(0).props().src)
     expect(img.at(0).props().src).toEqual(headerLogo)
   })
 
