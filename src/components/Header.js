@@ -1,4 +1,5 @@
 import React from 'react'
+import headerLogo from './../assets/images/CWS-CARES-tempLogo.png'
 
 const Header = () => {
   return (
@@ -7,7 +8,7 @@ const Header = () => {
         <div className="banner-customizable">
           <center>
             <img className="logo-customizable"
-              src="http://integration.cwds.io.s3-website-us-west-2.amazonaws.com/ALL/images/logo-lockup@2x.jpg"/>
+              src={headerLogo}/>
           </center>
         </div>
       </div>
