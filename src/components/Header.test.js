@@ -1,6 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import Header from './Header'
+import headerLogo from './../assets/images/CWS-CARES-tempLogo.png'
 
 describe('ErrorMessage.js Tests', () => {
   it('should display correct image', () => {
@@ -9,7 +10,7 @@ describe('ErrorMessage.js Tests', () => {
     let img = wrapper.find('img')
 
     expect(img).toHaveLength(1)
-    expect(img.at(0).props().src).toEqual('http://integration.cwds.io.s3-website-us-west-2.amazonaws.com/ALL/images/logo-lockup@2x.jpg')
+    expect(img.at(0).props().src).toEqual(headerLogo)
   })
 
   it('should center image', () => {

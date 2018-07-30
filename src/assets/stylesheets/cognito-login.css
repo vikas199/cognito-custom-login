@@ -76,35 +76,6 @@ body {
     padding-bottom: 15px;
 }
 
-.facebook-button {
-    background-color: #4267b2;
-    color: white;
-}
-
-.facebook-button:hover {
-    background-color: #2955ad;
-    color: white;
-}
-
-.google-button {
-    background-color: #d3d3d3;
-    color: black;
-}
-
-.google-button:hover {
-    background-color: #c4c4c4;
-}
-
-.amazon-button {
-    background-color: #f7bc22;
-    color: black;
-}
-
-.amazon-button:hover {
-    background-color: #ffae00;
-    color: black;
-}
-
 .logo-customizable {
     max-width: 60%;
     max-height: 30%;
