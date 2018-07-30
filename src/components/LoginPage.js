@@ -3,53 +3,54 @@ import React, { Component } from 'react'
 import qs from 'query-string'
 import LoginForm from './LoginForm'
 import MfaForm from './MfaForm'
+import NewPasswordRequiredForm from './NewPasswordRequiredForm'
 import * as Auth from '../utils/Auth'
+
+const MODE = {
+  LOGIN: 1,
+  VALIDATING: 2,
+  NEW_PASSWORD: 3
+}
 
 class LoginPage extends Component {
   constructor (props, context) {
     super(props, context)
 
     this.state = {
-      validating: false,
+      mode: MODE.LOGIN,
       errorMsg: undefined,
       email: '',
       password: '',
       code: '',
-      cognitoJson: '{}'
+      cognitoJson: '{}',
+      newPassword: '',
+      confirmPassword: ''
     }
     this.login = this.login.bind(this)
     this.validate = this.validate.bind(this)
     this.showValidationArea = this.showValidationArea.bind(this)
     this.showError = this.showError.bind(this)
-    this.updateEmailState = this.updateEmailState.bind(this)
-    this.updatePasswordState = this.updatePasswordState.bind(this)
-    this.updateCodeState = this.updateCodeState.bind(this)
+    this.onInputChange = this.onInputChange.bind(this)
     this.setCognitoToken = this.setCognitoToken.bind(this)
     this.submitFormToPerry = this.submitFormToPerry.bind(this)
+    this.changePassword = this.changePassword.bind(this)
+    this.showNewPasswordRequiredArea = this.showNewPasswordRequiredArea.bind(this)
   }
 
-  updateCodeState (event) {
-    this.setState({
-      code: event.target.value
-    })
-  }
-
-  updateEmailState (event) {
-    this.setState({
-      email: event.target.value
-    })
-  }
-
-  updatePasswordState (event) {
-    this.setState({
-      password: event.target.value
-    })
+  onInputChange (event) {
+    this.setState({ [event.target.id]: event.target.value })
   }
 
   showValidationArea (maskedEmail) {
     this.setState({
-      validating: true,
+      mode: MODE.VALIDATING,
       maskedEmail: maskedEmail
+    })
+  }
+
+  showNewPasswordRequiredArea () {
+    this.setState({
+      mode: MODE.NEW_PASSWORD
     })
   }
 
@@ -62,13 +63,16 @@ class LoginPage extends Component {
     document.getElementById('login-form').submit()
   }
 
-  showError (msg) {
+  showError (msg, mode = MODE.LOGIN) {
     this.setState({
-      validating: false,
+      mode: mode,
       maskedEmail: undefined,
       errorMsg: msg,
       email: '',
-      password: ''
+      password: '',
+      newPassword: '',
+      confirmPassword: '',
+      code: ''
     })
   }
 
@@ -90,6 +94,7 @@ class LoginPage extends Component {
 
   login () {
     let showValidationArea = this.showValidationArea
+    let showNewPasswordRequiredArea = this.showNewPasswordRequiredArea
     let showError = this.showError
     let setCognitoToken = this.setCognitoToken
 
@@ -100,6 +105,9 @@ class LoginPage extends Component {
     cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH')
     let authenticationDetails = Auth.authenticationDetails(this.state)
     cognitoUser.authenticateUserDefaultAuth(authenticationDetails, {
+      newPasswordRequired: function (userAttributes, requiredAttributes) {
+        showNewPasswordRequiredArea()
+      },
       onFailure: function (err) {
         if (err.code === 'InvalidParameterException') {
           showError('Email is required')
@@ -126,22 +134,65 @@ class LoginPage extends Component {
     })
   }
 
+  changePassword () {
+    let showError = this.showError
+    let cognitoUser = this.state.cognitoUser
+    let setCognitoToken = this.setCognitoToken
+    switch (this.state.confirmPassword) {
+      case this.state.newPassword:
+        cognitoUser.completeNewPasswordChallenge(this.state.newPassword, {}, {
+          onSuccess: function (result) {
+            setCognitoToken(JSON.stringify(result))
+          },
+          onFailure: function (err) {
+            showError(err.message, MODE.NEW_PASSWORD)
+          }
+        })
+        break
+      default: {
+        this.setState({
+          newPassword: '',
+          confirmPassword: ''
+        })
+        showError('Passwords do not match', MODE.NEW_PASSWORD)
+      }
+    }
+  }
+
   render () {
     const perryLoginUrl = `${process.env.PERRY_URL}/perry/login`
 
-    const comp = this.state.validating
-      ? <MfaForm
-        maskedEmail={this.state.maskedEmail}
-        code={this.state.code}
-        onCodeChange={this.updateCodeState}
-        onValidate={this.validate} />
-      : <LoginForm
-        onSubmit={this.login}
-        errorMsg={this.state.errorMsg}
-        email={this.state.email}
-        password={this.state.password}
-        onEmailChange={this.updateEmailState}
-        onPasswordChange={this.updatePasswordState} />
+    let comp
+    switch (this.state.mode) {
+      case MODE.VALIDATING:
+        comp = <MfaForm
+          maskedEmail={this.state.maskedEmail}
+          code={this.state.code}
+          onCodeChange={this.onInputChange}
+          onValidate={this.validate} />
+        break
+      case MODE.NEW_PASSWORD:
+        comp = <NewPasswordRequiredForm
+          errorMsg={this.state.errorMsg}
+          confirmPassword={this.state.confirmPassword}
+          newPassword={this.state.newPassword}
+          onNewPasswordChange={this.onInputChange}
+          onConfirmPasswordChange={this.onInputChange}
+          onSubmit={this.changePassword} />
+        break
+      case MODE.LOGIN:
+        comp = <LoginForm
+          onSubmit={this.login}
+          errorMsg={this.state.errorMsg}
+          email={this.state.email}
+          password={this.state.password}
+          onEmailChange={this.onInputChange}
+          onPasswordChange={this.onInputChange} />
+        break
+      default:
+        this.showError('Unknown Request')
+        break
+    }
 
     return (
       <React.Fragment>
