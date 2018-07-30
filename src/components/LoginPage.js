@@ -24,7 +24,9 @@ class LoginPage extends Component {
       code: '',
       cognitoJson: '{}',
       newPassword: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      disableSignIn: false,
+      disableVerify: false
     }
     this.login = this.login.bind(this)
     this.validate = this.validate.bind(this)
@@ -72,7 +74,9 @@ class LoginPage extends Component {
       password: '',
       newPassword: '',
       confirmPassword: '',
-      code: ''
+      code: '',
+      disableSignIn: false,
+      disableVerify: false
     })
   }
 
@@ -82,6 +86,9 @@ class LoginPage extends Component {
     let showError = this.showError
 
     let setCognitoToken = this.setCognitoToken
+    this.setState({
+      disableVerify: true
+    })
     cognitoUser.sendCustomChallengeAnswer(challengeResponses, {
       onSuccess: function (result) {
         setCognitoToken(JSON.stringify(result))
@@ -100,7 +107,8 @@ class LoginPage extends Component {
 
     let cognitoUser = Auth.createUser(this.state)
     this.setState({
-      cognitoUser: cognitoUser
+      cognitoUser: cognitoUser,
+      disableSignIn: true
     })
     cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH')
     let authenticationDetails = Auth.authenticationDetails(this.state)
@@ -161,11 +169,11 @@ class LoginPage extends Component {
 
   render () {
     const perryLoginUrl = `${process.env.PERRY_URL}/perry/login`
-
     let comp
     switch (this.state.mode) {
       case MODE.VALIDATING:
         comp = <MfaForm
+          disableVerify={this.state.disableVerify}
           maskedEmail={this.state.maskedEmail}
           code={this.state.code}
           onCodeChange={this.onInputChange}
@@ -183,6 +191,7 @@ class LoginPage extends Component {
       case MODE.LOGIN:
         comp = <LoginForm
           onSubmit={this.login}
+          disableSignIn={this.state.disableSignIn}
           errorMsg={this.state.errorMsg}
           email={this.state.email}
           password={this.state.password}
@@ -193,7 +202,6 @@ class LoginPage extends Component {
         this.showError('Unknown Request')
         break
     }
-
     return (
       <React.Fragment>
         {comp}
