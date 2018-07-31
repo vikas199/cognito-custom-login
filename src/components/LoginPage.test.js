@@ -170,14 +170,14 @@ describe('LoginPage.js Tests', () => {
     describe('verify button', () => {
       it('verify button default state', () => {
         const wrapper = shallow(<LoginPage />)
-        wrapper.setState({ mode: 2 })
+        wrapper.setState({ mode: 2, code: '' })
         expect(wrapper.find(MfaForm).props().disableVerify).toEqual(false)
       })
 
       it('changes verify button state', () => {
         const wrapper = shallow(<LoginPage />)
         const sendCustomChallengeAnswer = jest.fn()
-        wrapper.setState({ mode: 2 })
+        wrapper.setState({ mode: 2, code: '' })
         expect(wrapper.find(MfaForm).props().disableVerify).toEqual(false)
         const cognitoUser = {
           deviceKey: 'device_key',

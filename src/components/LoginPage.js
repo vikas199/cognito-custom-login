@@ -37,6 +37,7 @@ class LoginPage extends Component {
     this.submitFormToPerry = this.submitFormToPerry.bind(this)
     this.changePassword = this.changePassword.bind(this)
     this.showNewPasswordRequiredArea = this.showNewPasswordRequiredArea.bind(this)
+    this.redirectToLogin = this.redirectToLogin.bind(this)
   }
 
   onInputChange (event) {
@@ -167,6 +168,13 @@ class LoginPage extends Component {
     }
   }
 
+  redirectToLogin () {
+    this.setState({
+      disableSignIn: false,
+      mode: MODE.LOGIN
+    })
+  }
+
   render () {
     const perryLoginUrl = `${process.env.PERRY_URL}/perry/login`
     let comp
@@ -177,7 +185,8 @@ class LoginPage extends Component {
           maskedEmail={this.state.maskedEmail}
           code={this.state.code}
           onCodeChange={this.onInputChange}
-          onValidate={this.validate} />
+          onValidate={this.validate}
+          onCancel={this.redirectToLogin} />
         break
       case MODE.NEW_PASSWORD:
         comp = <NewPasswordRequiredForm

@@ -34,7 +34,7 @@ describe('MfaForm.js Tests', () => {
 
       expect(span).toHaveLength(3)
       expect(span.at(0).text()).toEqual('For additional security, we need to verify your account.')
-      expect(span.at(1).text()).toEqual('We have sent a verfication code by email to a@test.com')
+      expect(span.at(1).text()).toEqual('We have sent a verification code by email to a@test.com')
       expect(span.at(2).text()).toEqual('Please enter it below to complete verification.')
     })
   })
@@ -47,7 +47,7 @@ describe('MfaForm.js Tests', () => {
       let label = wrapper.find('label')
 
       expect(label).toHaveLength(1)
-      expect(label.text()).toEqual('Code')
+      expect(label.text()).toEqual('Enter Code')
     })
 
     it('contains text input for code', () => {
@@ -92,13 +92,11 @@ describe('MfaForm.js Tests', () => {
     })
   })
 
-  describe('submit button Tests', () => {
-    it('contains submit button', () => {
+  describe('Verify button Tests', () => {
+    it('contains verify button', () => {
       let mock = jest.fn()
       const wrapper = shallow(<MfaForm maskedEmail="a@test.com" code="the_code" onCodeChange={mock} onValidate={mock}/>)
-
-      let button = wrapper.find('button')
-
+      let button = wrapper.find('.validate-button')
       expect(button).toHaveLength(1)
     })
 
@@ -106,7 +104,7 @@ describe('MfaForm.js Tests', () => {
       let mock = jest.fn()
       const wrapper = shallow(<MfaForm maskedEmail="a@test.com" code="the_code" onCodeChange={mock} onValidate={mock}/>)
 
-      let button = wrapper.find('button')
+      let button = wrapper.find('.validate-button')
 
       expect(button.text()).toEqual('Verify')
     })
@@ -116,7 +114,7 @@ describe('MfaForm.js Tests', () => {
       let onSubmit = jest.fn()
       const wrapper = shallow(<MfaForm maskedEmail="a@test.com" code="the_code" onCodeChange={mock} onValidate={onSubmit}/>)
 
-      let button = wrapper.find('button')
+      let button = wrapper.find('.validate-button')
 
       expect(button).toHaveLength(1)
       expect(button.props().onClick).toEqual(onSubmit)
@@ -126,7 +124,7 @@ describe('MfaForm.js Tests', () => {
       let onSubmit = jest.fn()
       const disableVerify = false
       const wrapper = shallow(<MfaForm maskedEmail="a@test.com" code="the_code" onCodeChange={mock} onValidate={onSubmit} disableVerify={disableVerify}/>)
-      let button = wrapper.find('button')
+      let button = wrapper.find('.validate-button')
       expect(button.props().disabled).toEqual(disableVerify)
     })
     it('checks if the button text is changed', () => {
@@ -136,6 +134,35 @@ describe('MfaForm.js Tests', () => {
       const wrapper = shallow(<MfaForm maskedEmail="a@test.com" code="the_code" onCodeChange={mock} onValidate={onSubmit} disableVerify={disableVerify}/>)
       let button = wrapper.find('button')
       expect(button.text()).toEqual('Loading....')
+    })
+  })
+
+  describe('Cancel button Tests', () => {
+    it('contains cancel button', () => {
+      let mock = jest.fn()
+      const wrapper = shallow(<MfaForm maskedEmail="a@test.com" code="the_code" onCodeChange={mock} onCancel={mock}/>)
+      let button = wrapper.find('.cancel-button')
+      expect(button).toHaveLength(1)
+    })
+
+    it('has correct text on cancel button', () => {
+      let mock = jest.fn()
+      const wrapper = shallow(<MfaForm maskedEmail="a@test.com" code="the_code" onCodeChange={mock} onCancel={mock}/>)
+
+      let button = wrapper.find('.cancel-button')
+
+      expect(button.text()).toEqual('Cancel')
+    })
+
+    it('calls correct callback onClick', () => {
+      let mock = jest.fn()
+      let onSubmit = jest.fn()
+      const wrapper = shallow(<MfaForm maskedEmail="a@test.com" code="the_code" onCodeChange={mock} onCancel={onSubmit}/>)
+
+      let button = wrapper.find('.cancel-button')
+
+      expect(button).toHaveLength(1)
+      expect(button.props().onClick).toEqual(onSubmit)
     })
   })
 })
