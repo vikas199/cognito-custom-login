@@ -152,12 +152,14 @@ describe('LoginForm.js Tests', () => {
   describe('submit button Tests', () => {
     let mock = jest.fn()
     let mockToVerify = jest.fn()
-    let wrapper = shallow(<LoginForm
+    const disableSignIn = false
+    const wrapper = shallow(<LoginForm
       email="a@test.com"
       password="thepassword"
       onSubmit={mockToVerify}
       onEmailChange={mock}
       onPasswordChange={mock}
+      disableSignIn={disableSignIn}
       errorMsg="some_message"/>)
 
     afterEach(() => {
@@ -181,6 +183,10 @@ describe('LoginForm.js Tests', () => {
 
       expect(button).toHaveLength(1)
       expect(button.props().onClick).toEqual(mockToVerify)
+    })
+    it('check if submit button is disabled or not', () => {
+      let button = wrapper.find('button')
+      expect(button.props().disabled).toEqual(disableSignIn)
     })
   })
 })
