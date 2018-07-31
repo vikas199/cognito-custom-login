@@ -16,7 +16,7 @@ const MfaForm = ({maskedEmail, code, onCodeChange, onValidate, disableVerify}) =
       </div>
       <label>Code</label>
       <input id="code" className="form-control inputField-customizable" type="password" name="code" value={code} onChange={onCodeChange}/>
-      <button type="button" id="validateButton" className="btn btn-primary submitButton-customizable" onClick={onValidate} disabled={disableVerify}>Verify</button>
+      <button type="button" id="validateButton" className="btn btn-primary submitButton-customizable" onClick={onValidate} disabled={disableVerify}>{disableVerify ? 'Loading....' : 'Verify'}</button>
 
     </div>
   )
