@@ -118,7 +118,9 @@ describe('LoginPage.js Tests', () => {
       password: '',
       cognitoJson: '{}',
       newPassword: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      disableSignIn: false,
+      disableVerify: false
     })
   })
 
@@ -163,6 +165,34 @@ describe('LoginPage.js Tests', () => {
       wrapper.instance().validate()
       expect(mockShowError.mock.calls.length).toEqual(1)
       expect(mockShowError.mock.calls[0][0]).toEqual('Unable to verify account')
+    })
+
+    describe('verify button', () => {
+      it('verify button default state', () => {
+        const wrapper = shallow(<LoginPage />)
+        wrapper.setState({ mode: 2 })
+        expect(wrapper.find(MfaForm).props().disableVerify).toEqual(false)
+      })
+
+      it('changes verify button state', () => {
+        const wrapper = shallow(<LoginPage />)
+        const sendCustomChallengeAnswer = jest.fn()
+        wrapper.setState({ mode: 2 })
+        expect(wrapper.find(MfaForm).props().disableVerify).toEqual(false)
+        const cognitoUser = {
+          deviceKey: 'device_key',
+          sendCustomChallengeAnswer: sendCustomChallengeAnswer
+        }
+        wrapper.setState(
+          {
+            cognitoUser: cognitoUser,
+            code: 'some_code'
+          }
+        )
+        wrapper.instance().validate()
+        wrapper.setState({ disableVerify: true })
+        expect(wrapper.find(MfaForm).props().disableVerify).toEqual(true)
+      })
     })
   })
 
@@ -325,6 +355,22 @@ describe('LoginPage.js Tests', () => {
 
         expect(mockShowValidationArea.mock.calls.length).toEqual(1)
         expect(mockShowValidationArea.mock.calls[0][0]).toEqual('someEmail')
+      })
+    })
+
+    describe('login button', () => {
+      it('login button default state', () => {
+        const wrapper = shallow(<LoginPage />)
+        expect(wrapper.find(LoginForm).props().disableSignIn).toEqual(false)
+      })
+
+      it('changes login in button state', () => {
+        const mockSetCognitoToken = jest.fn()
+        const wrapper = shallow(<LoginPage />)
+        expect(wrapper.find(LoginForm).props().disableSignIn).toEqual(false)
+        wrapper.instance().login()
+        wrapper.setState({ disableSignIn: true })
+        expect(wrapper.find(LoginForm).props().disableSignIn).toEqual(true)
       })
     })
   })

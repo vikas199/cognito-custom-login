@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ErrorMessage from './ErrorMessage'
 
-const LoginForm = ({onSubmit, errorMsg, email, password, onEmailChange, onPasswordChange}) => {
+const LoginForm = ({onSubmit, errorMsg, email, password, onEmailChange, onPasswordChange, disableSignIn}) => {
   return (
     <div>
       <span className="textDescription-customizable "><h1>Log In</h1></span>
@@ -19,7 +19,7 @@ const LoginForm = ({onSubmit, errorMsg, email, password, onEmailChange, onPasswo
       <a className="redirect-customizable"
         href="/forgotPassword?redirect_uri=https://web.integration.cwds.io/perry/login&amp;response_type=code&amp;state=7DRlOO">Forgot
           your password?</a>
-      <button className="btn btn-primary submitButton-customizable" type="button" onClick={onSubmit}>Sign In</button>
+      <button className="btn btn-primary submitButton-customizable" type="button" onClick={onSubmit} disabled={disableSignIn}>Sign In</button>
       <br/>
       <br/>
       <p className="Notice-This-system">Notice:<br/>

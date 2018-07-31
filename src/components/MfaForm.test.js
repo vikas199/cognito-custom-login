@@ -121,5 +121,13 @@ describe('MfaForm.js Tests', () => {
       expect(button).toHaveLength(1)
       expect(button.props().onClick).toEqual(onSubmit)
     })
+    it('checks if submit button is disabled', () => {
+      let mock = jest.fn()
+      let onSubmit = jest.fn()
+      const disableVerify = false
+      const wrapper = shallow(<MfaForm maskedEmail="a@test.com" code="the_code" onCodeChange={mock} onValidate={onSubmit} disableVerify={disableVerify}/>)
+      let button = wrapper.find('button')
+      expect(button.props().disabled).toEqual(disableVerify)
+    })
   })
 })
