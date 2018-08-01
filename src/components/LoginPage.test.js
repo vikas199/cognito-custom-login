@@ -450,4 +450,21 @@ describe('LoginPage.js Tests', () => {
       })
     })
   })
+
+  describe('Cancel button', () => {
+    it('calls onCancel', () => {
+      const wrapper = shallow(<LoginPage />)
+      wrapper.setState({ mode: 2, disableSignIn: true })
+
+      expect(wrapper.state().mode).toEqual(2)
+      expect(wrapper.find(MfaForm).length).toEqual(1)
+
+      wrapper.instance().onCancel()
+
+      wrapper.update()
+      expect(wrapper.state().mode).toEqual(1)
+      expect(wrapper.state().disableSignIn).toEqual(false)
+      expect(wrapper.find(LoginForm).length).toEqual(1)
+    })
+  })
 })

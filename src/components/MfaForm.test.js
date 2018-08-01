@@ -1,6 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import MfaForm from './MfaForm'
+import ErrorMessage from './ErrorMessage'
 
 describe('MfaForm.js Tests', () => {
   it('should require correct params', () => {
@@ -70,6 +71,20 @@ describe('MfaForm.js Tests', () => {
       expect(input.props().value).toEqual('the_code')
     })
 
+    it('should pass errorMsg to <ErrorMessage>', () => {
+      let mock = jest.fn()
+      const wrapper = shallow(<MfaForm
+        maskedEmail="a@test.com"
+        code="the_code"
+        onCodeChange={mock}
+        onValidate={mock}
+        errorMsg="some_message"/>)
+
+      let errorMessageTag = wrapper.find(ErrorMessage)
+      expect(errorMessageTag).toHaveLength(1)
+      expect(errorMessageTag.props().msg).toEqual('some_message')
+    })
+
     it('has type of password', () => {
       let mock = jest.fn()
       const wrapper = shallow(<MfaForm maskedEmail="a@test.com" code="the_code" onCodeChange={mock} onValidate={mock}/>)
@@ -132,7 +147,7 @@ describe('MfaForm.js Tests', () => {
       let onSubmit = jest.fn()
       const disableVerify = true
       const wrapper = shallow(<MfaForm maskedEmail="a@test.com" code="the_code" onCodeChange={mock} onValidate={onSubmit} disableVerify={disableVerify}/>)
-      let button = wrapper.find('button')
+      let button = wrapper.find('.validate-button')
       expect(button.text()).toEqual('Loading....')
     })
   })
@@ -156,13 +171,13 @@ describe('MfaForm.js Tests', () => {
 
     it('calls correct callback onClick', () => {
       let mock = jest.fn()
-      let onSubmit = jest.fn()
-      const wrapper = shallow(<MfaForm maskedEmail="a@test.com" code="the_code" onCodeChange={mock} onCancel={onSubmit}/>)
+      let onCancel = jest.fn()
+      const wrapper = shallow(<MfaForm maskedEmail="a@test.com" code="the_code" onCodeChange={mock} onCancel={onCancel}/>)
 
       let button = wrapper.find('.cancel-button')
 
       expect(button).toHaveLength(1)
-      expect(button.props().onClick).toEqual(onSubmit)
+      expect(button.props().onClick).toEqual(onCancel)
     })
   })
 })
