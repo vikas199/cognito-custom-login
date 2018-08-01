@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ErrorMessage from './ErrorMessage'
+import PasswordInstructions from './PasswordInstructions'
 
 const ResetPasswordForm = ({email, errorMsg, code, newPassword, confirmPassword, onCodeChange, onNewPasswordChange, onConfirmPasswordChange, onSubmit}) => {
   return (
@@ -18,21 +19,7 @@ const ResetPasswordForm = ({email, errorMsg, code, newPassword, confirmPassword,
       <br/>
       <label>Create Password</label>
       <input id="new_password" className="form-control inputField-customizable" type="password" name="password" value={newPassword} onChange={onNewPasswordChange}/>
-      <div className='passwordIndicatorSection'>
-        <span>Password must be at least 8 characters in length and contain one of each of the following:</span>
-        <div className='col-xs-4'>
-          <ul>
-            <li> lower case letter [a-z] </li>
-            <li>upper case letter [A-Z]</li>
-          </ul>
-        </div>
-        <div className='col-xs-8'>
-          <ul>
-            <li> numeric character [0-9].</li>
-            <li> special character</li>
-          </ul>
-        </div>
-      </div>
+      <PasswordInstructions/>
       <br/>
       <label>Confirm New Password Again</label>
       <input id="confirm_password" className="form-control inputField-customizable" type="password"

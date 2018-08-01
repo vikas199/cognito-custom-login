@@ -48,7 +48,7 @@ describe('ResetPasswordForm.js Tests', () => {
 
       let span = wrapper.find('span')
 
-      expect(span).toHaveLength(3)
+      expect(span).toHaveLength(2)
       expect(span.at(0).text()).toEqual('Please check your email')
       expect(span.at(1).text()).toEqual('We have sent a password reset code by email to a@test.com. Enter it below to reset your password.')
     })

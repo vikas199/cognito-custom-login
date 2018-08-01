@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ErrorMessage from './ErrorMessage'
+import PasswordInstructions from './PasswordInstructions'
 
 const NewPasswordRequiredForm = ({errorMsg, newPassword, confirmPassword, onNewPasswordChange, onConfirmPasswordChange, onSubmit}) => {
   return (
@@ -11,6 +12,7 @@ const NewPasswordRequiredForm = ({errorMsg, newPassword, confirmPassword, onNewP
       <label>New Password</label>
       <input id="newPassword" className="form-control inputField-customizable" type="password"
         name="password" value={newPassword} onChange={onNewPasswordChange}/>
+      <PasswordInstructions />
       <br/>
       <label>Confirm New Password</label>
       <input id="confirmPassword" className="form-control inputField-customizable" type="password"
