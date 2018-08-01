@@ -204,3 +204,15 @@ body {
   letter-spacing: normal;
   color: #9b9b9b;
 }
+
+.passwordIndicatorSection {
+    margin-top: 10px;
+}
+
+ul {
+    padding: 0
+}
+
+li {
+    font-size: 13px
+}
