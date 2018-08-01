@@ -188,7 +188,7 @@ describe('LoginForm.js Tests', () => {
       let button = wrapper.find('button')
       expect(button.props().disabled).toEqual(disableSignIn)
     })
-    it('check if submit button is disabled or not', () => {
+    it('check if submit button text is changed', () => {
       const wrapper = shallow(<LoginForm
         email="a@test.com"
         password="thepassword"
