@@ -188,5 +188,17 @@ describe('LoginForm.js Tests', () => {
       let button = wrapper.find('button')
       expect(button.props().disabled).toEqual(disableSignIn)
     })
+    it('check if submit button text is changed', () => {
+      const wrapper = shallow(<LoginForm
+        email="a@test.com"
+        password="thepassword"
+        onSubmit={mockToVerify}
+        onEmailChange={mock}
+        onPasswordChange={mock}
+        disableSignIn={true}
+        errorMsg="some_message"/>)
+      const button = wrapper.find('button')
+      expect(button.text()).toEqual('Loading....')
+    })
   })
 })
