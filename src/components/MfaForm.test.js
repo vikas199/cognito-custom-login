@@ -31,7 +31,7 @@ describe('MfaForm.js Tests', () => {
     it('should display instructions', () => {
       const wrapper = shallow(<MfaForm maskedEmail="a@test.com"/>)
 
-      let span = wrapper.find('span')
+      let span = wrapper.find('p')
 
       expect(span).toHaveLength(3)
       expect(span.at(0).text()).toEqual('For additional security, we need to verify your account.')

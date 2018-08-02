@@ -7,10 +7,8 @@ const Header = () => {
       <div>
         <div className="banner-customizable">
           <center>
-            <img
-              className="logo-customizable"
-              alt='CWS-CARES logo'
-              src={headerLogo}/>
+            <img className="logo-customizable"
+              src={headerLogo} alt='CWS-CARES-tempLogo'/>
           </center>
         </div>
       </div>

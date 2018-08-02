@@ -9,14 +9,14 @@ const MfaForm = ({maskedEmail, code, onCodeChange, onValidate, disableVerify, on
         <ErrorMessage msg={errorMsg}/>
         <h1>Account Verification</h1>
         <br/>
-        <span id="text-code">For additional security, we need to verify your account.</span>
-        <br/><br/>
-        <div><span id="text-code">We have sent a verification code by email to {maskedEmail}</span></div>
+        <p>For additional security, we need to verify your account.</p>
         <br/>
-        <div><span id="text-code">Please enter it below to complete verification.</span></div>
+        <p>We have sent a verification code by email to {maskedEmail}</p>
         <br/>
+        <p>Please enter it below to complete verification.</p>
       </div>
-      <label>Enter Code</label>
+      <br/>
+      <label htmlFor='code'>Enter Code</label>
       <input
         id="code"
         className="form-control inputField-customizable"
