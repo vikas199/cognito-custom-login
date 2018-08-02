@@ -9,14 +9,14 @@ const NewPasswordRequiredForm = ({errorMsg, newPassword, confirmPassword, onNewP
       <h1>Update Password</h1>
       <ErrorMessage msg={errorMsg}/>
       <br/>
-      <label>New Password</label>
+      <label id='first_new_password'>New Password</label>
       <input id="newPassword" className="form-control inputField-customizable" type="password"
-        name="password" value={newPassword} onChange={onNewPasswordChange}/>
+        name="password" value={newPassword} onChange={onNewPasswordChange} aria-labelledby="first_new_password"/>
       <PasswordInstructions />
       <br/>
-      <label>Confirm New Password</label>
+      <label id='first_confirm_password'>Confirm New Password</label>
       <input id="confirmPassword" className="form-control inputField-customizable" type="password"
-        name="confirmPassword" value={confirmPassword} onChange={onConfirmPasswordChange}/>
+        name="confirmPassword" value={confirmPassword} onChange={onConfirmPasswordChange} aria-labelledby="first_confirm_password"/>
 
       <button id="change_password_button" className="btn btn-primary submitButton-customizable" type="button" onClick={onSubmit}>Change Password</button>
     </div>
