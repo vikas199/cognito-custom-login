@@ -14,16 +14,16 @@ const ResetPasswordForm = ({email, errorMsg, code, newPassword, confirmPassword,
         <br/>
         <span id="text-code">We have sent a password reset code by email to {email}. Enter it below to reset your password.</span>
       </div>
-      <label>Code</label>
-      <input id="forgot_password_code" className="form-control inputField-customizable" type="password" name="code" value={code} onChange={onCodeChange}/>
+      <label id='code_label'>Code</label>
+      <input id="forgot_password_code" className="form-control inputField-customizable" type="password" name="code" value={code} onChange={onCodeChange} aria-labelledby='code_label'/>
       <br/>
-      <label>Create Password</label>
-      <input id="new_password" className="form-control inputField-customizable" type="password" name="password" value={newPassword} onChange={onNewPasswordChange}/>
+      <label id='new_password_label'>Create Password</label>
+      <input id="new_password" className="form-control inputField-customizable" type="password" name="password" value={newPassword} onChange={onNewPasswordChange} aria-labelledby='new_password_label'/>
       <PasswordInstructions/>
       <br/>
-      <label>Confirm New Password Again</label>
+      <label id='confirm_password_label'>Confirm New Password Again</label>
       <input id="confirm_password" className="form-control inputField-customizable" type="password"
-        name="confirmPassword" value={confirmPassword} onChange={onConfirmPasswordChange}/>
+        name="confirmPassword" value={confirmPassword} onChange={onConfirmPasswordChange} aria-labelledby='confirm_password_label'/>
 
       <button id="change_password_button" className="btn btn-primary submitButton-customizable" type="button" onClick={onSubmit}>Change Password</button>
     </div>
