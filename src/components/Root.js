@@ -7,9 +7,7 @@ import App from './App'
 export default class Root extends Component {
   render () {
     return (
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <App />
     )
   }
 }

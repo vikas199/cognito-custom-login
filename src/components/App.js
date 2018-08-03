@@ -1,5 +1,5 @@
 /* eslint-disable import/no-named-as-default */
-import { Route, Switch } from 'react-router-dom'
+import { Route, BrowserRouter, Switch } from 'react-router-dom'
 
 import LoginPage from './LoginPage'
 import ForgotPasswordPage from './ForgotPasswordPage'
@@ -21,11 +21,13 @@ class App extends React.Component {
               <div className="modal-content background-customizable">
                 <Header/>
                 <div id="div-forms" className="modal-body">
-                  <Switch>
-                    <Route path="/login" component={LoginPage} />
-                    <Route path="/forgotpassword" component={ForgotPasswordPage} />
-                    <Route exact path="/" component={LoginPage} />
-                  </Switch>
+                  <BrowserRouter>
+                    <Switch>
+                      <Route exact path="/" component={LoginPage} />
+                      <Route exact path="/login" component={LoginPage} />
+                      <Route exact path="/forgotpassword" component={ForgotPasswordPage} />
+                    </Switch>
+                  </BrowserRouter>
                 </div>
               </div>
             </div>
