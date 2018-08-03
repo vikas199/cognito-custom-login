@@ -24,8 +24,7 @@ const MfaForm = ({maskedEmail, code, onCodeChange, onValidate, disableVerify, on
         name="code"
         value={code}
         onChange={onCodeChange}
-        autoFocus
-        onBlur={errorMsg ? (event) => { event.currentTarget.focus() } : undefined}/>
+        autoFocus />
       <div className= 'submit-block'>
         <button
           type="button"
