@@ -171,7 +171,8 @@ class LoginPage extends Component {
   onCancel () {
     this.setState({
       disableSignIn: false,
-      mode: MODE.LOGIN
+      mode: MODE.LOGIN,
+      errorMsg: ''
     })
   }
 
