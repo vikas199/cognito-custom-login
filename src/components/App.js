@@ -22,7 +22,6 @@ class App extends React.Component {
                 <Header/>
                 <div id="div-forms" className="modal-body">
                   <Switch>
-                    <Route path="/" component={LoginPage} />
                     <Route path="/login" component={LoginPage} />
                     <Route path="/forgotpassword" component={ForgotPasswordPage} />
                   </Switch>
