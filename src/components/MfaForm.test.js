@@ -105,15 +105,6 @@ describe('MfaForm.js Tests', () => {
       expect(input).toHaveLength(1)
       expect(input.props().onChange).toEqual(onCodeChange)
     })
-
-    it('check onBlur calls focus', () => {
-      let mock = jest.fn()
-      let onCodeChange = jest.fn()
-      let focus = jest.fn()
-      const wrapper = shallow(<MfaForm maskedEmail="a@test.com" code="the_code" onCodeChange={onCodeChange} onValidate={mock}/>)
-      wrapper.find('input').props().onBlur({currentTarget: {focus}})
-      expect(focus).toHaveBeenCalledTimes(1)
-    })
   })
 
   describe('Verify button Tests', () => {
