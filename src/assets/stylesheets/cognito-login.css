@@ -110,20 +110,10 @@ body {
 }
 
 .submitButton-customizable {
-    font-size: 14px;
     font-weight: bold;
     margin: 20px 0px 10px 0px;
     height: 40px;
     width: 100%;
-    color: #fff;
-    background-color: #337ab7;
-    border-color: #2e6da4
-}
-
-.submitButton-customizable:hover {
-    color: #fff;
-    background-color: #286090;
-    border-color: #204d74
 }
 
 .errorMessage-customizable {
@@ -202,7 +192,6 @@ body {
   font-stretch: normal;
   line-height: 1.56;
   letter-spacing: normal;
-  color: #9b9b9b;
 }
 
 .passwordIndicatorSection {
@@ -215,4 +204,15 @@ ul {
 
 li {
     font-size: 13px
+}
+
+.submit-block {
+    display: flex;
+    justify-content: flex-end;
+    padding: 4px;
+}
+
+.cancel-button, .validate-button {
+    margin: 4px;
+    width: 10rem;
 }

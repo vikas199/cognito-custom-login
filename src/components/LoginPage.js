@@ -37,6 +37,7 @@ class LoginPage extends Component {
     this.submitFormToPerry = this.submitFormToPerry.bind(this)
     this.changePassword = this.changePassword.bind(this)
     this.showNewPasswordRequiredArea = this.showNewPasswordRequiredArea.bind(this)
+    this.onCancel = this.onCancel.bind(this)
   }
 
   onInputChange (event) {
@@ -94,7 +95,7 @@ class LoginPage extends Component {
         setCognitoToken(JSON.stringify(result))
       },
       onFailure: function () {
-        showError('Unable to verify account')
+        showError('Unable to verify account', MODE.VALIDATING)
       }
     })
   }
@@ -167,6 +168,13 @@ class LoginPage extends Component {
     }
   }
 
+  onCancel () {
+    this.setState({
+      disableSignIn: false,
+      mode: MODE.LOGIN
+    })
+  }
+
   render () {
     const perryLoginUrl = `${process.env.PERRY_URL}/perry/login`
     let comp
@@ -177,7 +185,9 @@ class LoginPage extends Component {
           maskedEmail={this.state.maskedEmail}
           code={this.state.code}
           onCodeChange={this.onInputChange}
-          onValidate={this.validate} />
+          onValidate={this.validate}
+          onCancel={this.onCancel}
+          errorMsg={this.state.errorMsg} />
         break
       case MODE.NEW_PASSWORD:
         comp = <NewPasswordRequiredForm

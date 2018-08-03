@@ -170,14 +170,14 @@ describe('LoginPage.js Tests', () => {
     describe('verify button', () => {
       it('verify button default state', () => {
         const wrapper = shallow(<LoginPage />)
-        wrapper.setState({ mode: 2 })
+        wrapper.setState({ mode: 2, code: '' })
         expect(wrapper.find(MfaForm).props().disableVerify).toEqual(false)
       })
 
       it('changes verify button state', () => {
         const wrapper = shallow(<LoginPage />)
         const sendCustomChallengeAnswer = jest.fn()
-        wrapper.setState({ mode: 2 })
+        wrapper.setState({ mode: 2, code: '' })
         expect(wrapper.find(MfaForm).props().disableVerify).toEqual(false)
         const cognitoUser = {
           deviceKey: 'device_key',
@@ -448,6 +448,23 @@ describe('LoginPage.js Tests', () => {
         expect(mockSetCognitoToken.mock.calls.length).toEqual(1)
         expect(mockSetCognitoToken.mock.calls[0][0]).toEqual(JSON.stringify(result))
       })
+    })
+  })
+
+  describe('Cancel button', () => {
+    it('calls onCancel', () => {
+      const wrapper = shallow(<LoginPage />)
+      wrapper.setState({ mode: 2, disableSignIn: true })
+
+      expect(wrapper.state().mode).toEqual(2)
+      expect(wrapper.find(MfaForm).length).toEqual(1)
+
+      wrapper.instance().onCancel()
+
+      wrapper.update()
+      expect(wrapper.state().mode).toEqual(1)
+      expect(wrapper.state().disableSignIn).toEqual(false)
+      expect(wrapper.find(LoginForm).length).toEqual(1)
     })
   })
 })

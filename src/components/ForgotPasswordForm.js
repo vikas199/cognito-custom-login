@@ -8,10 +8,10 @@ const ForgotPasswordForm = ({errorMsg, email, onChange, onSubmit}) => {
       <h1>Password Reset</h1>
       <ErrorMessage msg={errorMsg}/>
       <br/>
-      <span>Enter your login email below and we will send a message to reset your password</span>
+      <span id='email_label'>Enter your login email below and we will send a message to reset your password</span>
       <br/>
       <input name="emal" id="email" className="form-control inputField-customizable" type="text"
-        placeholder="Email" value={email} onChange={onChange}/>
+        placeholder="Email" value={email} onChange={onChange} aria-labelledby='email_label'/>
       <button className="btn btn-primary submitButton-customizable" type="button" onClick={onSubmit}>Reset my password</button>
     </div>
   )

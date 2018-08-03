@@ -15,7 +15,7 @@ def notify(String tagNumber) {
     slackSend(
         baseUrl: 'https://hooks.slack.com/services/',
         tokenCredentialId: SLACK_CREDENTIALS_ID,
-        channel: '#cognito_dev',
+        channel: '#tech-cap-updates',
         color: colorCode,
         message: "${env.JOB_NAME} #${env.BUILD_NUMBER} - *${currentBuild.currentResult}* after ${currentBuild.durationString}" +
             "${tagMessage}" +

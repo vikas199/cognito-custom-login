@@ -8,14 +8,13 @@ const LoginForm = ({onSubmit, errorMsg, email, password, onEmailChange, onPasswo
       <span className='textDescription-customizable'><h1>Log In</h1></span>
 
       <ErrorMessage msg={errorMsg}/>
-      <label className='label-customizable'>Email</label>
-      <div><input id='email' name='email' type='text' className='form-control inputField-customizable'
-        placeholder='Email' value={email} onChange={onEmailChange}/></div>
+      <label className='label-customizable' htmlFor='email'>Email</label>
+      <input id='email' name='email' type='text' className='form-control inputField-customizable'
+        placeholder='Email' value={email} onChange={onEmailChange}/>
       <br/>
-      <label className='label-customizable'>Password</label>
-      <div><input id='password' name='password' type='password' className='form-control inputField-customizable'
-        placeholder='Password' value={password} onChange={onPasswordChange}/></div>
-
+      <label className='label-customizable' htmlFor='password'>Password</label>
+      <input id='password' name='password' type='password' className='form-control inputField-customizable'
+        placeholder='Password' value={password} onChange={onPasswordChange}/>
       <a className='redirect-customizable' href='/forgotPassword'>Forgot your password?</a>
       <button className="btn btn-primary submitButton-customizable" type="button" onClick={onSubmit} disabled={disableSignIn}>
         {disableSignIn ? 'Loading....' : 'Sign In'}
