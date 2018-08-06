@@ -4,7 +4,6 @@ import webpack from 'webpack'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import WebpackMd5Hash from 'webpack-md5-hash'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
-import CopyWebpackPlugin from 'copy-webpack-plugin'
 import path from 'path'
 import Dotenv from 'dotenv-webpack'
 
@@ -53,10 +52,40 @@ export default {
       },
       inject: true
     }),
-    new CopyWebpackPlugin([
-      { from: './src/index.ejs', to: './login.html' },
-      { from: './src/index.ejs', to: './forgotPassword.html' }
-    ]),
+    new HtmlWebpackPlugin({
+      template: 'src/index.ejs',
+      filename: './login',
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
+      },
+      inject: true
+    }),
+    new HtmlWebpackPlugin({
+      template: 'src/index.ejs',
+      filename: './forgotPassword',
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
+      },
+      inject: true
+    }),
     new Dotenv({
       path: process.env.ENV_PATH,
       systemvars: true
