@@ -52,7 +52,40 @@ export default {
       },
       inject: true
     }),
-
+    new HtmlWebpackPlugin({
+      template: 'src/index.ejs',
+      filename: './login',
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
+      },
+      inject: true
+    }),
+    new HtmlWebpackPlugin({
+      template: 'src/index.ejs',
+      filename: './forgotPassword',
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
+      },
+      inject: true
+    }),
     new Dotenv({
       path: process.env.ENV_PATH,
       systemvars: true
