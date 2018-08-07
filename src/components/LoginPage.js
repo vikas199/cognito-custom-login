@@ -82,11 +82,11 @@ class LoginPage extends Component {
   }
 
   validate () {
-    let cognitoUser = this.state.cognitoUser
-    let challengeResponses = this.state.code + ' ' + cognitoUser.deviceKey
-    let showError = this.showError
+    const cognitoUser = this.state.cognitoUser
+    const challengeResponses = this.state.code + ' ' + cognitoUser.deviceKey
+    const showError = this.showError
 
-    let setCognitoToken = this.setCognitoToken
+    const setCognitoToken = this.setCognitoToken
     this.setState({
       disableVerify: true
     })
@@ -101,18 +101,24 @@ class LoginPage extends Component {
   }
 
   login () {
-    let showValidationArea = this.showValidationArea
-    let showNewPasswordRequiredArea = this.showNewPasswordRequiredArea
-    let showError = this.showError
-    let setCognitoToken = this.setCognitoToken
+    const showValidationArea = this.showValidationArea
+    const showNewPasswordRequiredArea = this.showNewPasswordRequiredArea
+    const showError = this.showError
+    const setCognitoToken = this.setCognitoToken
 
-    let cognitoUser = Auth.createUser(this.state)
+    const cognitoUser = Auth.createUser(this.state)
     this.setState({
       cognitoUser: cognitoUser,
       disableSignIn: true
     })
     cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH')
-    let authenticationDetails = Auth.authenticationDetails(this.state)
+
+    // const authenticationDetails = Auth.authenticationDetails(this.state)
+    const authenticationDetails = Auth.authenticationDetails({
+      username: this.state.email,
+      password: this.state.password
+    })
+
     cognitoUser.authenticateUserDefaultAuth(authenticationDetails, {
       newPasswordRequired: function (userAttributes, requiredAttributes) {
         showNewPasswordRequiredArea()
@@ -126,8 +132,7 @@ class LoginPage extends Component {
       },
       customChallenge: function () {
         // device challenge
-        let challengeResponses
-        challengeResponses = cognitoUser.deviceKey ? cognitoUser.deviceKey : 'null'
+        const challengeResponses = cognitoUser.deviceKey ? cognitoUser.deviceKey : 'null'
         cognitoUser.sendCustomChallengeAnswer(challengeResponses, {
           onSuccess: function (result) {
             setCognitoToken(JSON.stringify(result))
@@ -144,9 +149,9 @@ class LoginPage extends Component {
   }
 
   changePassword () {
-    let showError = this.showError
-    let cognitoUser = this.state.cognitoUser
-    let setCognitoToken = this.setCognitoToken
+    const showError = this.showError
+    const cognitoUser = this.state.cognitoUser
+    const setCognitoToken = this.setCognitoToken
     switch (this.state.confirmPassword) {
       case this.state.newPassword:
         cognitoUser.completeNewPasswordChallenge(this.state.newPassword, {}, {
