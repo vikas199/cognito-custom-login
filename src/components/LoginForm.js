@@ -4,9 +4,8 @@ import ErrorMessage from './ErrorMessage'
 
 const LoginForm = ({onSubmit, errorMsg, email, password, onEmailChange, onPasswordChange, disableSignIn}) => {
   return (
-    <div>
+    <form>
       <span className='textDescription-customizable'><h1>Log In</h1></span>
-
       <ErrorMessage msg={errorMsg}/>
       <label className='label-customizable' htmlFor='email'>Email</label>
       <input id='email' name='email' type='text' className='form-control inputField-customizable'
@@ -16,14 +15,14 @@ const LoginForm = ({onSubmit, errorMsg, email, password, onEmailChange, onPasswo
       <input id='password' name='password' type='password' className='form-control inputField-customizable'
         placeholder='Password' value={password} onChange={onPasswordChange}/>
       <a className='redirect-customizable' href='/forgotPassword'>Forgot your password?</a>
-      <button className="btn btn-primary submitButton-customizable" type="button" onClick={onSubmit} disabled={disableSignIn}>
+      <button className="btn btn-primary submitButton-customizable" type="submit" onClick={onSubmit} disabled={disableSignIn}>
         {disableSignIn ? 'Loading....' : 'Sign In'}
       </button>
       <br/>
       <br/>
       <p className='Notice-This-system'>Notice:<br/>
       This system is the property of the State of California and may be accessed only by authorized users. Unauthorized use of this system is strictly prohibited and may result in, but is not limited to, disciplinary action and criminal prosecution. The State of California may monitor any activity or communication on the system and retrieve any information stored within the system. By accessing and using this system, you are consenting to such monitoring and information retrieval for law enforcement and other purposes. Users have no expectation of privacy as to any communication on, or to any information stored within the system, or to any devices used to access this system.</p>
-    </div>
+    </form>
   )
 }
 

@@ -6,6 +6,8 @@ import ResetPasswordForm from './ResetPasswordForm'
 import * as Auth from '../utils/Auth'
 
 describe('ForgotPasswordPage.js Tests', () => {
+  const event = { preventDefault: () => {} }
+
   it('should have reseting=false by default', () => {
     const wrapper = shallow(<ForgotPasswordPage/>)
 
@@ -108,13 +110,13 @@ describe('ForgotPasswordPage.js Tests', () => {
 
     it('sets cognitoUser to state', () => {
       const wrapper = shallow(<ForgotPasswordPage />)
-      wrapper.instance().onEmailSubmit()
+      wrapper.instance().onEmailSubmit(event)
       expect(wrapper.state().cognitoUser).toEqual(cognitoUser)
     })
 
     it('calls forgotPassword', () => {
       const wrapper = shallow(<ForgotPasswordPage />)
-      wrapper.instance().onEmailSubmit()
+      wrapper.instance().onEmailSubmit(event)
       expect(mockForgotPassword.mock.calls.length).toEqual(1)
     })
 
@@ -127,7 +129,7 @@ describe('ForgotPasswordPage.js Tests', () => {
       }
       let instance = wrapper.instance()
       instance.showError = mockShowError
-      instance.onEmailSubmit()
+      instance.onEmailSubmit(event)
 
       expect(mockShowError.mock.calls.length).toEqual(1)
       expect(mockShowError.mock.calls[0][0]).toEqual('Email is required')
@@ -142,7 +144,7 @@ describe('ForgotPasswordPage.js Tests', () => {
       }
       let instance = wrapper.instance()
       instance.showError = mockShowError
-      instance.onEmailSubmit()
+      instance.onEmailSubmit(event)
 
       expect(mockShowError.mock.calls.length).toEqual(1)
       expect(mockShowError.mock.calls[0][0]).toEqual('some_message')
@@ -158,7 +160,7 @@ describe('ForgotPasswordPage.js Tests', () => {
       let instance = wrapper.instance()
       instance.showResetArea = mockShowResetArea
 
-      instance.onEmailSubmit()
+      instance.onEmailSubmit(event)
 
       expect(mockShowResetArea.mock.calls.length).toEqual(1)
     })
@@ -194,7 +196,7 @@ describe('ForgotPasswordPage.js Tests', () => {
       let instance = wrapper.instance()
       instance.showError = mockShowError
       instance.setState({new_password: 'foobar', confirm_password: 'bazbar'})
-      instance.changePassword()
+      instance.changePassword(event)
 
       expect(mockShowError.mock.calls.length).toEqual(1)
       expect(mockShowError.mock.calls[0][0]).toEqual('Passwords do not match')
@@ -205,7 +207,7 @@ describe('ForgotPasswordPage.js Tests', () => {
 
       let instance = wrapper.instance()
       instance.setState({new_password: 'foobar', confirm_password: 'foobar', code: 'some_code', cognitoUser: cognitoUser})
-      instance.changePassword()
+      instance.changePassword(event)
 
       expect(mockConfirmPassword.mock.calls.length).toEqual(1)
       expect(mockConfirmPassword.mock.calls[0][0]).toEqual('some_code')
@@ -224,7 +226,7 @@ describe('ForgotPasswordPage.js Tests', () => {
       }
 
       instance.setState({new_password: 'foobar', confirm_password: 'foobar', cognitoUser: cognitoUser})
-      instance.changePassword()
+      instance.changePassword(event)
 
       expect(mockShowError.mock.calls.length).toEqual(1)
       expect(mockShowError.mock.calls[0][0]).toEqual('some_message')
@@ -243,7 +245,7 @@ describe('ForgotPasswordPage.js Tests', () => {
       }
 
       instance.setState({new_password: 'foobar', confirm_password: 'foobar', cognitoUser: cognitoUser})
-      instance.changePassword()
+      instance.changePassword(event)
 
       expect(mockPush.mock.calls.length).toEqual(1)
       expect(mockPush.mock.calls[0][0]).toEqual('/login')

@@ -30,7 +30,8 @@ class ForgotPasswordPage extends Component {
     )
   }
 
-  onEmailSubmit () {
+  onEmailSubmit (event) {
+    event.preventDefault()
     let showResetArea = this.showResetArea
     let showError = this.showError
     let cognitoUser = Auth.createUser(this.state)
@@ -93,7 +94,8 @@ class ForgotPasswordPage extends Component {
     })
   }
 
-  changePassword () {
+  changePassword (event) {
+    event.preventDefault()
     let showError = this.showError
     let cognitoUser = this.state.cognitoUser
     let props = this.props
@@ -131,14 +133,14 @@ class ForgotPasswordPage extends Component {
           onCodeChange={this.updateCodeState}
           onNewPasswordChange={this.updateNewPasswordState}
           onConfirmPasswordChange={this.updateConfirmPasswordState}
-          onSubmit={this.changePassword}/>)
+          onSubmit={event => this.changePassword(event)}/>)
     } else {
       return (
         <ForgotPasswordForm
           errorMsg={this.state.errorMsg}
           email={this.state.email}
           onChange={this.updateEmailState}
-          onSubmit={this.onEmailSubmit}/>)
+          onSubmit={event => this.onEmailSubmit(event)}/>)
     }
   }
 }

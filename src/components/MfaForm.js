@@ -4,7 +4,7 @@ import ErrorMessage from './ErrorMessage'
 
 const MfaForm = ({maskedEmail, code, onCodeChange, onValidate, disableVerify, onCancel, errorMsg}) => {
   return (
-    <React.Fragment>
+    <form>
       <div id="div-forgot-password-msg">
         <ErrorMessage msg={errorMsg}/>
         <h1>Account Verification</h1>
@@ -34,7 +34,7 @@ const MfaForm = ({maskedEmail, code, onCodeChange, onValidate, disableVerify, on
           Cancel
         </button>
         <button
-          type='button'
+          type='submit'
           id="validateButton"
           className="validate-button btn btn-primary"
           disabled={!code || disableVerify}
@@ -42,7 +42,7 @@ const MfaForm = ({maskedEmail, code, onCodeChange, onValidate, disableVerify, on
           {disableVerify ? 'Loading....' : 'Verify'}
         </button>
       </div>
-    </React.Fragment>
+    </form>
   )
 }
 

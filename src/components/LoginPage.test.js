@@ -125,6 +125,7 @@ describe('LoginPage.js Tests', () => {
   })
 
   describe('validate Tests', () => {
+    const event = { preventDefault: () => {} }
     it('calls cognitoUser.sendCustomChallengeAnswer with correct value', () => {
       const sendCustomChallengeAnswer = jest.fn()
       const cognitoUser = {
@@ -139,7 +140,7 @@ describe('LoginPage.js Tests', () => {
           code: 'some_code'
         }
       )
-      wrapper.instance().validate()
+      wrapper.instance().validate(event)
       expect(sendCustomChallengeAnswer.mock.calls.length).toEqual(1)
       expect(sendCustomChallengeAnswer.mock.calls[0][0]).toEqual('some_code device_key')
     })
@@ -162,7 +163,7 @@ describe('LoginPage.js Tests', () => {
         }
       )
       wrapper.instance().showError = mockShowError
-      wrapper.instance().validate()
+      wrapper.instance().validate(event)
       expect(mockShowError.mock.calls.length).toEqual(1)
       expect(mockShowError.mock.calls[0][0]).toEqual('Unable to verify account')
     })
@@ -189,7 +190,7 @@ describe('LoginPage.js Tests', () => {
             code: 'some_code'
           }
         )
-        wrapper.instance().validate()
+        wrapper.instance().validate(event)
         wrapper.setState({ disableVerify: true })
         expect(wrapper.find(MfaForm).props().disableVerify).toEqual(true)
       })
@@ -200,6 +201,7 @@ describe('LoginPage.js Tests', () => {
     const mockAuthenticateUserDefaultAuth = jest.fn()
     const mockSendCustomChallengeAnswer = jest.fn()
     const mockSetAuthenticationFlowType = jest.fn()
+    const event = { preventDefault: () => {} }
     let cognitoUser = {
       authenticateUserDefaultAuth: mockAuthenticateUserDefaultAuth,
       sendCustomChallengeAnswer: mockSendCustomChallengeAnswer,
@@ -230,13 +232,13 @@ describe('LoginPage.js Tests', () => {
 
     it('sets cognitoUser to state', () => {
       const wrapper = shallow(<LoginPage />)
-      wrapper.instance().login()
+      wrapper.instance().login(event)
       expect(wrapper.state().cognitoUser).toEqual(cognitoUser)
     })
 
     it('sets authenticationFlowType to CUSTOM_AUTH', () => {
       const wrapper = shallow(<LoginPage />)
-      wrapper.instance().login()
+      wrapper.instance().login(event)
 
       expect(mockSetAuthenticationFlowType.mock.calls.length).toEqual(1)
       expect(mockSetAuthenticationFlowType.mock.calls[0][0]).toEqual('CUSTOM_AUTH')
@@ -244,7 +246,7 @@ describe('LoginPage.js Tests', () => {
 
     it('calls cognitoUser.authenticateUserDefaultAuth', () => {
       const wrapper = shallow(<LoginPage />)
-      wrapper.instance().login()
+      wrapper.instance().login(event)
 
       expect(mockAuthenticateUserDefaultAuth.mock.calls.length).toEqual(1)
     })
@@ -258,7 +260,7 @@ describe('LoginPage.js Tests', () => {
       }
       const instance = wrapper.instance()
       instance.showError = mockShowError
-      instance.login()
+      instance.login(event)
 
       expect(mockShowError.mock.calls.length).toEqual(1)
       expect(mockShowError.mock.calls[0][0]).toEqual('Email is required')
@@ -273,7 +275,7 @@ describe('LoginPage.js Tests', () => {
       }
       const instance = wrapper.instance()
       instance.showError = mockShowError
-      instance.login()
+      instance.login(event)
 
       expect(mockShowError.mock.calls.length).toEqual(1)
       expect(mockShowError.mock.calls[0][0]).toEqual('some_message')
@@ -292,7 +294,7 @@ describe('LoginPage.js Tests', () => {
         }
         const instance = wrapper.instance()
         instance.showError = mockShowError
-        instance.login()
+        instance.login(event)
 
         expect(mockShowError.mock.calls.length).toEqual(1)
         expect(mockShowError.mock.calls[0][0]).toEqual('some_message')
@@ -318,7 +320,7 @@ describe('LoginPage.js Tests', () => {
 
         const instance = wrapper.instance()
         instance.setCognitoToken = mockSetCognitoToken
-        instance.validate()
+        instance.validate(event)
         expect(mockSetCognitoToken.mock.calls.length).toEqual(1)
       })
 
@@ -334,8 +336,7 @@ describe('LoginPage.js Tests', () => {
 
         const instance = wrapper.instance()
         instance.setCognitoToken = mockSetCognitoToken
-        instance.login()
-
+        instance.login(event)
         expect(mockSetCognitoToken.mock.calls.length).toEqual(1)
       })
 
@@ -351,7 +352,7 @@ describe('LoginPage.js Tests', () => {
 
         const instance = wrapper.instance()
         instance.showValidationArea = mockShowValidationArea
-        instance.login()
+        instance.login(event)
 
         expect(mockShowValidationArea.mock.calls.length).toEqual(1)
         expect(mockShowValidationArea.mock.calls[0][0]).toEqual('someEmail')
@@ -368,7 +369,7 @@ describe('LoginPage.js Tests', () => {
         const mockSetCognitoToken = jest.fn()
         const wrapper = shallow(<LoginPage />)
         expect(wrapper.find(LoginForm).props().disableSignIn).toEqual(false)
-        wrapper.instance().login()
+        wrapper.instance().login(event)
         wrapper.setState({ disableSignIn: true })
         expect(wrapper.find(LoginForm).props().disableSignIn).toEqual(true)
       })
@@ -376,6 +377,7 @@ describe('LoginPage.js Tests', () => {
   })
 
   describe('changePassword tests', () => {
+    const event = { preventDefault: () => {} }
     it('shows error when passwords do not match', () => {
       const mockShowError = jest.fn()
       const wrapper = shallow(<LoginPage />)
@@ -385,7 +387,7 @@ describe('LoginPage.js Tests', () => {
 
       const instance = wrapper.instance()
       instance.showError = mockShowError
-      instance.changePassword()
+      instance.changePassword(event)
 
       expect(wrapper.state().newPassword).toEqual('')
       expect(wrapper.state().confirmPassword).toEqual('')
@@ -420,7 +422,7 @@ describe('LoginPage.js Tests', () => {
 
         const instance = wrapper.instance()
         instance.showError = mockShowError
-        instance.changePassword()
+        instance.changePassword(event)
 
         expect(mockShowError.mock.calls.length).toEqual(1)
         expect(mockShowError.mock.calls[0][0]).toEqual('some message')
@@ -443,7 +445,7 @@ describe('LoginPage.js Tests', () => {
 
         const instance = wrapper.instance()
         instance.setCognitoToken = mockSetCognitoToken
-        instance.changePassword()
+        instance.changePassword(event)
 
         expect(mockSetCognitoToken.mock.calls.length).toEqual(1)
         expect(mockSetCognitoToken.mock.calls[0][0]).toEqual(JSON.stringify(result))

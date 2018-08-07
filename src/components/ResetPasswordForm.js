@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import ErrorMessage from './ErrorMessage'
 import PasswordInstructions from './PasswordInstructions'
 
-const ResetPasswordForm = ({email, errorMsg, code, newPassword, confirmPassword, onCodeChange, onNewPasswordChange, onConfirmPasswordChange, onSubmit}) => {
+const ResetPasswordForm = ({ email, errorMsg, code, newPassword, confirmPassword, onCodeChange, onNewPasswordChange, onConfirmPasswordChange, onSubmit }) => {
   return (
-    <div>
+    <form>
       <h1>Password Reset</h1>
       <ErrorMessage msg={errorMsg}/>
       <br/>
@@ -22,11 +22,10 @@ const ResetPasswordForm = ({email, errorMsg, code, newPassword, confirmPassword,
       <PasswordInstructions/>
       <br/>
       <label id='confirm_password_label'>Confirm New Password Again</label>
-      <input id="confirm_password" className="form-control inputField-customizable" type="password"
-        name="confirmPassword" value={confirmPassword} onChange={onConfirmPasswordChange} aria-labelledby='confirm_password_label'/>
+      <input id="confirm_password" className="form-control inputField-customizable" type="password" name="confirmPassword" value={confirmPassword} onChange={onConfirmPasswordChange} aria-labelledby='confirm_password_label'/>
 
-      <button id="change_password_button" className="btn btn-primary submitButton-customizable" type="button" onClick={onSubmit}>Change Password</button>
-    </div>
+      <button id="change_password_button" className="btn btn-primary submitButton-customizable" type="submit" onClick={onSubmit}>Change Password</button>
+    </form>
   )
 }
 

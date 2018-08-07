@@ -81,7 +81,8 @@ class LoginPage extends Component {
     })
   }
 
-  validate () {
+  validate (event) {
+    event.preventDefault()
     const cognitoUser = this.state.cognitoUser
     const challengeResponses = this.state.code + ' ' + cognitoUser.deviceKey
     const showError = this.showError
@@ -100,7 +101,8 @@ class LoginPage extends Component {
     })
   }
 
-  login () {
+  login (event) {
+    event.preventDefault()
     const showValidationArea = this.showValidationArea
     const showNewPasswordRequiredArea = this.showNewPasswordRequiredArea
     const showError = this.showError
@@ -148,7 +150,8 @@ class LoginPage extends Component {
     })
   }
 
-  changePassword () {
+  changePassword (event) {
+    event.preventDefault()
     const showError = this.showError
     const cognitoUser = this.state.cognitoUser
     const setCognitoToken = this.setCognitoToken
@@ -191,7 +194,7 @@ class LoginPage extends Component {
           maskedEmail={this.state.maskedEmail}
           code={this.state.code}
           onCodeChange={this.onInputChange}
-          onValidate={this.validate}
+          onValidate={event => this.validate(event)}
           onCancel={this.onCancel}
           errorMsg={this.state.errorMsg} />
         break
@@ -202,11 +205,11 @@ class LoginPage extends Component {
           newPassword={this.state.newPassword}
           onNewPasswordChange={this.onInputChange}
           onConfirmPasswordChange={this.onInputChange}
-          onSubmit={this.changePassword} />
+          onSubmit={event => this.changePassword(event)} />
         break
       case MODE.LOGIN:
         comp = <LoginForm
-          onSubmit={this.login}
+          onSubmit={event => this.login(event)}
           disableSignIn={this.state.disableSignIn}
           errorMsg={this.state.errorMsg}
           email={this.state.email}

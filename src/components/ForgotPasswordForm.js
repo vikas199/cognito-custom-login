@@ -4,7 +4,7 @@ import ErrorMessage from './ErrorMessage'
 
 const ForgotPasswordForm = ({errorMsg, email, onChange, onSubmit}) => {
   return (
-    <div>
+    <form>
       <h1>Password Reset</h1>
       <ErrorMessage msg={errorMsg}/>
       <br/>
@@ -12,8 +12,8 @@ const ForgotPasswordForm = ({errorMsg, email, onChange, onSubmit}) => {
       <br/>
       <input name="emal" id="email" className="form-control inputField-customizable" type="text"
         placeholder="Email" value={email} onChange={onChange} aria-labelledby='email_label'/>
-      <button className="btn btn-primary submitButton-customizable" type="button" onClick={onSubmit}>Reset my password</button>
-    </div>
+      <button className="btn btn-primary submitButton-customizable" type="submit" onClick={onSubmit}>Reset my password</button>
+    </form>
   )
 }
 
