@@ -232,6 +232,25 @@ describe('ForgotPasswordPage.js Tests', () => {
       expect(mockShowError.mock.calls[0][0]).toEqual('some_message')
     })
 
+    it('Shows custom error message, when error code is InvalidParameterException', () => {
+      let mockShowError = jest.fn()
+
+      const wrapper = shallow(<ForgotPasswordPage />)
+
+      let instance = wrapper.instance()
+      instance.showError = mockShowError
+      let err = {code: 'InvalidParameterException'}
+      cognitoUser.confirmPassword = (code, password, callback) => {
+        callback.onFailure(err)
+      }
+
+      instance.setState({new_password: 'foo', confirm_password: 'foo', cognitoUser: cognitoUser})
+      instance.changePassword(event)
+
+      expect(mockShowError.mock.calls.length).toEqual(1)
+      expect(mockShowError.mock.calls[0][0]).toEqual('Password does not conform to policy: Password not long enough')
+    })
+
     it('pushes to login on success', () => {
       let mockPush = jest.fn()
 

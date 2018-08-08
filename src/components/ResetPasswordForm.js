@@ -10,7 +10,7 @@ const ResetPasswordForm = ({ email, errorMsg, code, newPassword, confirmPassword
       <ErrorMessage msg={errorMsg}/>
       <br/>
       <div id="div-forgot-password-msg">
-        <span>Please check your email</span>
+        <div>Please check your email.</div>
         <br/>
         <span id="text-code">We have sent a password reset code by email to {email}. Enter it below to reset your password.</span>
       </div>
@@ -40,10 +40,5 @@ ResetPasswordForm.propTypes = {
   onConfirmPasswordChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired
 }
-
-// ResetPasswordForm.defaultProps = {
-//   newPassword: '',
-//   confirmPassword: ''
-// }
 
 export default ResetPasswordForm

@@ -47,10 +47,12 @@ describe('ResetPasswordForm.js Tests', () => {
       const wrapper = shallow(<ResetPasswordForm email="a@test.com"/>)
 
       let span = wrapper.find('span')
+      let div = wrapper.find('div')
 
-      expect(span).toHaveLength(2)
-      expect(span.at(0).text()).toEqual('Please check your email')
-      expect(span.at(1).text()).toEqual('We have sent a password reset code by email to a@test.com. Enter it below to reset your password.')
+      expect(span).toHaveLength(1)
+      expect(div).toHaveLength(2)
+      expect(div.at(1).text()).toEqual('Please check your email.')
+      expect(span.at(0).text()).toEqual('We have sent a password reset code by email to a@test.com. Enter it below to reset your password.')
     })
   })
 

@@ -11,7 +11,9 @@ class ForgotPasswordPage extends Component {
     this.state = {
       reseting: false,
       email: '',
-      errorMsg: undefined
+      errorMsg: undefined,
+      new_password: '',
+      confirm_password: ''
     }
     this.showResetArea = this.showResetArea.bind(this)
     this.showError = this.showError.bind(this)
@@ -106,13 +108,16 @@ class ForgotPasswordPage extends Component {
             props.history.push('/login')
           },
           onFailure: function (err) {
-            showError(err.message)
+            if (err.code === 'InvalidParameterException') {
+              showError('Password does not conform to policy: Password not long enough')
+            } else {
+              showError(err.message)
+            }
           }
         })
         break
       default: {
         this.setState({
-          code: '',
           new_password: '',
           confirm_password: ''
         })
@@ -128,8 +133,8 @@ class ForgotPasswordPage extends Component {
           email={this.state.email}
           errorMsg={this.state.errorMsg}
           code={this.state.code}
-          new_password={this.state.new_password}
-          confirm_password={this.state.confirm_password}
+          newPassword={this.state.new_password}
+          confirmPassword={this.state.confirm_password}
           onCodeChange={this.updateCodeState}
           onNewPasswordChange={this.updateNewPasswordState}
           onConfirmPasswordChange={this.updateConfirmPasswordState}
