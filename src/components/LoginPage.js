@@ -47,7 +47,8 @@ class LoginPage extends Component {
   showValidationArea (maskedEmail) {
     this.setState({
       mode: MODE.VALIDATING,
-      maskedEmail: maskedEmail
+      maskedEmail: maskedEmail,
+      errorMsg: ''
     })
   }
 

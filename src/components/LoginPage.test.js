@@ -84,6 +84,7 @@ describe('LoginPage.js Tests', () => {
     wrapper.instance().showValidationArea('a@test.com')
     expect(wrapper.state().mode).toEqual(2)
     expect(wrapper.state().maskedEmail).toEqual('a@test.com')
+    expect(wrapper.state().errorMsg).toEqual('')
   })
 
   it('sets up correctly when unknown mode', () => {
@@ -279,6 +280,26 @@ describe('LoginPage.js Tests', () => {
 
       expect(mockShowError.mock.calls.length).toEqual(1)
       expect(mockShowError.mock.calls[0][0]).toEqual('some_message')
+    })
+
+    it('changes errorMsg state to empty string after successful signIn', () => {
+      const mockShowError = jest.fn()
+
+      const wrapper = shallow(<LoginPage />)
+      cognitoUser.authenticateUserDefaultAuth = (details, callback) => {
+        callback.onFailure({code: 'something', message: 'some_message'})
+      }
+      const instance = wrapper.instance()
+      instance.showError = mockShowError
+      instance.login(event)
+
+      expect(mockShowError.mock.calls.length).toEqual(1)
+      expect(mockShowError.mock.calls[0][0]).toEqual('some_message')
+
+      wrapper.instance().showValidationArea('a@test.com')
+      expect(wrapper.state().mode).toEqual(2)
+      expect(wrapper.state().maskedEmail).toEqual('a@test.com')
+      expect(wrapper.state().errorMsg).toEqual('')
     })
 
     describe('customChallenge Tests', () => {
