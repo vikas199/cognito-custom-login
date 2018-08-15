@@ -47,7 +47,8 @@ class LoginPage extends Component {
   showValidationArea (maskedEmail) {
     this.setState({
       mode: MODE.VALIDATING,
-      maskedEmail: maskedEmail
+      maskedEmail: maskedEmail,
+      errorMsg: ''
     })
   }
 
@@ -115,12 +116,7 @@ class LoginPage extends Component {
     })
     cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH')
 
-    // const authenticationDetails = Auth.authenticationDetails(this.state)
-    const authenticationDetails = Auth.authenticationDetails({
-      username: this.state.email,
-      password: this.state.password
-    })
-
+    const authenticationDetails = Auth.authenticationDetails(this.state)
     cognitoUser.authenticateUserDefaultAuth(authenticationDetails, {
       newPasswordRequired: function (userAttributes, requiredAttributes) {
         showNewPasswordRequiredArea()
