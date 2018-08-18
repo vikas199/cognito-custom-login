@@ -5,6 +5,7 @@ import LoginForm from './LoginForm'
 import MfaForm from './MfaForm'
 import NewPasswordRequiredForm from './NewPasswordRequiredForm'
 import * as Auth from '../utils/Auth'
+import * as AmazonCognitoIdentity from 'amazon-cognito-identity-js'
 
 const MODE = {
   LOGIN: 1,
@@ -120,6 +121,7 @@ class LoginPage extends Component {
     cognitoUser.authenticateUserDefaultAuth(authenticationDetails, {
       newPasswordRequired: function (userAttributes, requiredAttributes) {
         showNewPasswordRequiredArea()
+        console.log(userAttributes)
       },
       onFailure: function (err) {
         if (err.code === 'InvalidParameterException') {
@@ -151,11 +153,22 @@ class LoginPage extends Component {
     const showError = this.showError
     const cognitoUser = this.state.cognitoUser
     const setCognitoToken = this.setCognitoToken
+    const attributeList = []
+    const emailVerified = {Name: 'email_verified', Value: true}
+    const attributeEmailVerified = new AmazonCognitoIdentity.CognitoUserAttribute(emailVerified)
+    attributeList.push(attributeEmailVerified)
     switch (this.state.confirmPassword) {
       case this.state.newPassword:
         cognitoUser.completeNewPasswordChallenge(this.state.newPassword, {}, {
           onSuccess: function (result) {
             setCognitoToken(JSON.stringify(result))
+            cognitoUser.updateAttributes(attributeList, function (err, result) {
+              if (err) {
+                console.log(err)
+                return
+              }
+              console.log('call result: ' + result)
+            })
           },
           onFailure: function (err) {
             showError(err.message, MODE.NEW_PASSWORD)
