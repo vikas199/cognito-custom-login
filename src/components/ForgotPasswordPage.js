@@ -13,7 +13,8 @@ class ForgotPasswordPage extends Component {
       email: '',
       errorMsg: undefined,
       new_password: '',
-      confirm_password: ''
+      confirm_password: '',
+      disableResetPassword: false
     }
     this.showResetArea = this.showResetArea.bind(this)
     this.showError = this.showError.bind(this)
@@ -24,6 +25,7 @@ class ForgotPasswordPage extends Component {
     this.updateConfirmPasswordState = this.updateConfirmPasswordState.bind(this)
     this.changePassword = this.changePassword.bind(this)
     this.mask = this.mask.bind(this)
+    this.onCancel = this.onCancel.bind(this)
   }
 
   mask (email) {
@@ -38,7 +40,8 @@ class ForgotPasswordPage extends Component {
     let showError = this.showError
     let cognitoUser = Auth.createUser(this.state)
     this.setState({
-      cognitoUser: cognitoUser
+      cognitoUser: cognitoUser,
+      disableResetPassword: true
     })
 
     cognitoUser.forgotPassword({
@@ -92,8 +95,13 @@ class ForgotPasswordPage extends Component {
 
   showError (msg) {
     this.setState({
-      errorMsg: msg
+      errorMsg: msg,
+      disableResetPassword: false
     })
+  }
+
+  onCancel () {
+    this.props.history.push('/login')
   }
 
   changePassword (event) {
@@ -145,6 +153,8 @@ class ForgotPasswordPage extends Component {
           errorMsg={this.state.errorMsg}
           email={this.state.email}
           onChange={this.updateEmailState}
+          disableResetPassword={this.state.disableResetPassword}
+          onCancel={this.onCancel}
           onSubmit={event => this.onEmailSubmit(event)}/>)
     }
   }

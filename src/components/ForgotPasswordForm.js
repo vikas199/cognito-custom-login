@@ -2,17 +2,32 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ErrorMessage from './ErrorMessage'
 
-const ForgotPasswordForm = ({errorMsg, email, onChange, onSubmit}) => {
+const ForgotPasswordForm = ({errorMsg, email, onChange, onSubmit, disableResetPassword, onCancel}) => {
   return (
     <form>
       <h1>Password Reset</h1>
       <ErrorMessage msg={errorMsg}/>
       <br/>
-      <span id='email_label'>Enter your login email below and we will send a message to reset your password</span>
-      <br/>
+      <label htmlFor='email' className='label-customizable'>Enter your login email below and we will send a message to reset your password</label>
       <input name="emal" id="email" className="form-control inputField-customizable" type="text"
         placeholder="Email" value={email} onChange={onChange} aria-labelledby='email_label'/>
-      <button className="btn btn-primary submitButton-customizable" type="submit" onClick={onSubmit}>Reset my password</button>
+      <div className= 'submit-block'>
+        <button
+          type="button"
+          id="cancelButton"
+          className="cancel-button btn btn-primary"
+          onClick={onCancel}>
+          Cancel
+        </button>
+        <button
+          type='submit'
+          id="validateButton"
+          className="reset-password-button btn btn-primary"
+          disabled={!email || disableResetPassword}
+          onClick={onSubmit}>
+          {disableResetPassword ? 'Loading....' : 'Reset my password'}
+        </button>
+      </div>
     </form>
   )
 }

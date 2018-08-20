@@ -40,10 +40,10 @@ describe('ForgotPasswordForm.js Tests', () => {
   it('should display instructions', () => {
     const wrapper = shallow(<ForgotPasswordForm/>)
 
-    let span = wrapper.find('span')
+    const label = wrapper.find('label')
 
-    expect(span).toHaveLength(1)
-    expect(span.text()).toEqual('Enter your login email below and we will send a message to reset your password')
+    expect(label).toHaveLength(1)
+    expect(label.text()).toEqual('Enter your login email below and we will send a message to reset your password')
   })
 
   it('contains text input for email', () => {
@@ -79,14 +79,14 @@ describe('ForgotPasswordForm.js Tests', () => {
     expect(input.props().onChange).toEqual(onChange)
   })
 
-  it('contains submit button', () => {
+  it('contains submit button and cancel button', () => {
     let onChange = jest.fn()
     let onSubmit = jest.fn()
     const wrapper = shallow(<ForgotPasswordForm email="a@test.com" onChange={onChange} onSubmit={onSubmit}/>)
 
     let button = wrapper.find('button')
 
-    expect(button).toHaveLength(1)
+    expect(button).toHaveLength(2)
   })
 
   it('has correct text on submit button', () => {
@@ -96,7 +96,7 @@ describe('ForgotPasswordForm.js Tests', () => {
 
     let button = wrapper.find('button')
 
-    expect(button.text()).toEqual('Reset my password')
+    expect(button.at(1).props().children).toEqual('Reset my password')
   })
 
   it('calls correct callback onClick', () => {
@@ -106,7 +106,29 @@ describe('ForgotPasswordForm.js Tests', () => {
 
     let button = wrapper.find('button')
 
-    expect(button).toHaveLength(1)
-    expect(button.props().onClick).toEqual(onSubmit)
+    expect(button).toHaveLength(2)
+    expect(button.at(1).props().onClick).toEqual(onSubmit)
+  })
+
+  it('has correct text on cancel button', () => {
+    let onChange = jest.fn()
+    let onSubmit = jest.fn()
+    let onCancel = jest.fn()
+    const wrapper = shallow(<ForgotPasswordForm email="a@test.com" onChange={onChange} onSubmit={onSubmit} onCancel={onCancel}/>)
+
+    let button = wrapper.find('button')
+
+    expect(button.at(0).props().children).toEqual('Cancel')
+  })
+
+  it('calls correct callback onClick', () => {
+    let onChange = jest.fn()
+    let onSubmit = jest.fn()
+    let onCancel = jest.fn()
+    const wrapper = shallow(<ForgotPasswordForm email="a@test.com" onChange={onChange} onSubmit={onSubmit} onCancel={onCancel}/>)
+
+    let button = wrapper.find('button')
+
+    expect(button.at(0).props().onClick).toEqual(onCancel)
   })
 })
