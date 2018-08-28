@@ -125,6 +125,14 @@ describe('LoginPage.js Tests', () => {
     })
   })
 
+  it('sets up correctly when showing update password page', () => {
+    const wrapper = shallow(<LoginPage />)
+    wrapper.setState({mode: 1, errorMsg: 'some-text'})
+    wrapper.instance().showNewPasswordRequiredArea()
+    expect(wrapper.state().mode).toEqual(3)
+    expect(wrapper.state().errorMsg).toEqual('')
+  })
+
   describe('validate Tests', () => {
     const event = { preventDefault: () => {} }
     it('calls cognitoUser.sendCustomChallengeAnswer with correct value', () => {

@@ -54,7 +54,8 @@ class LoginPage extends Component {
 
   showNewPasswordRequiredArea () {
     this.setState({
-      mode: MODE.NEW_PASSWORD
+      mode: MODE.NEW_PASSWORD,
+      errorMsg: ''
     })
   }
 
