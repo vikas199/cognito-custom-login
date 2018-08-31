@@ -125,6 +125,15 @@ body {
     color: #D64958;
 }
 
+.successMessage-customizable {
+    padding: 5px;
+    font-size: 14px;
+    width: 100%;
+    background: #F5F5F5;
+    border: 2px solid #00611C;
+    color: #00611C;
+}
+
 .inputField-customizable {
     width: 100%;
     height: 34px;

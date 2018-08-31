@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import NewPasswordRequiredForm from './NewPasswordRequiredForm'
-import ErrorMessage from './ErrorMessage'
+import UserMessage from './UserMessage'
 
 describe('NewPasswordRequiredForm.js Tests', () => {
   it('should require correct params', () => {
@@ -29,13 +29,13 @@ describe('NewPasswordRequiredForm.js Tests', () => {
     expect(h1.text()).toEqual('Update Password')
   })
 
-  it('should pass errorMsg to <ErrorMessage>', () => {
+  it('should pass errorMsg to <UserMessage>', () => {
     let mock = jest.fn()
     const wrapper = shallow(<NewPasswordRequiredForm errorMsg="some_message" onNewPasswordChange={mock} onConfirmPasswordChange={mock} onSubmit={mock}/>)
 
-    let errorMessageTag = wrapper.find(ErrorMessage)
-    expect(errorMessageTag).toHaveLength(1)
-    expect(errorMessageTag.props().msg).toEqual('some_message')
+    let UserMessageTag = wrapper.find(UserMessage)
+    expect(UserMessageTag).toHaveLength(1)
+    expect(UserMessageTag.props().errorMessage).toEqual('some_message')
   })
 
   it('contains text input for new password', () => {

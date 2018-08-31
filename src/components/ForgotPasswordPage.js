@@ -114,6 +114,7 @@ class ForgotPasswordPage extends Component {
         cognitoUser.confirmPassword(this.state.code, this.state.new_password, {
           onSuccess: function () {
             props.history.push('/login')
+            props.history.push({msg: 'Password has been reset successfully. Please use your new password to login.'})
           },
           onFailure: function (err) {
             if (err.code === 'InvalidParameterException') {

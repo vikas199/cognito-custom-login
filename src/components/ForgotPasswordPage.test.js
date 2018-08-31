@@ -135,7 +135,7 @@ describe('ForgotPasswordPage.js Tests', () => {
       expect(mockShowError.mock.calls[0][0]).toEqual('Email is required')
     })
 
-    it('displays given msg if not InvalidParameter', () => {
+    it('displays given errorMessage if not InvalidParameter', () => {
       let mockShowError = jest.fn()
 
       const wrapper = shallow(<ForgotPasswordPage />)
@@ -251,7 +251,7 @@ describe('ForgotPasswordPage.js Tests', () => {
       expect(mockShowError.mock.calls[0][0]).toEqual('Password does not conform to policy: Password not long enough')
     })
 
-    it('pushes to login on success', () => {
+    it('pushes to login and show success message on success', () => {
       let mockPush = jest.fn()
 
       const wrapper = shallow(<ForgotPasswordPage />)
@@ -266,8 +266,9 @@ describe('ForgotPasswordPage.js Tests', () => {
       instance.setState({new_password: 'foobar', confirm_password: 'foobar', cognitoUser: cognitoUser})
       instance.changePassword(event)
 
-      expect(mockPush.mock.calls.length).toEqual(1)
+      expect(mockPush.mock.calls.length).toEqual(2)
       expect(mockPush.mock.calls[0][0]).toEqual('/login')
+      expect(mockPush.mock.calls[1][0]).toEqual({msg: 'Password has been reset successfully. Please use your new password to login.'})
     })
   })
 })

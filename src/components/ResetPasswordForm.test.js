@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import ResetPasswordForm from './ResetPasswordForm'
-import ErrorMessage from './ErrorMessage'
+import UserMessage from './UserMessage'
 
 describe('ResetPasswordForm.js Tests', () => {
   it('should require correct params', () => {
@@ -34,12 +34,12 @@ describe('ResetPasswordForm.js Tests', () => {
     expect(h1.text()).toEqual('Password Reset')
   })
 
-  it('should pass errorMsg to <ErrorMessage>', () => {
+  it('should pass errorMsg to <UserMessage>', () => {
     const wrapper = shallow(<ResetPasswordForm errorMsg="some_message"/>)
 
-    let errorMessageTag = wrapper.find(ErrorMessage)
-    expect(errorMessageTag).toHaveLength(1)
-    expect(errorMessageTag.props().msg).toEqual('some_message')
+    let UserMessageTag = wrapper.find(UserMessage)
+    expect(UserMessageTag).toHaveLength(1)
+    expect(UserMessageTag.props().errorMessage).toEqual('some_message')
   })
 
   describe('instructions Tests', () => {

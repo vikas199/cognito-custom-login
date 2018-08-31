@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ErrorMessage from './ErrorMessage'
+import UserMessage from './UserMessage'
 import PasswordInstructions from './PasswordInstructions'
 
 const NewPasswordRequiredForm = ({errorMsg, newPassword, confirmPassword, onNewPasswordChange, onConfirmPasswordChange, onSubmit}) => {
   return (
     <form>
       <h1>Update Password</h1>
-      <ErrorMessage msg={errorMsg}/>
+      <UserMessage errorMessage={errorMsg}/>
       <br/>
       <label id='first_new_password'>New Password</label>
       <input id="newPassword" className="form-control inputField-customizable" type="password" name="password" value={newPassword} onChange={onNewPasswordChange} aria-labelledby="first_new_password"/>

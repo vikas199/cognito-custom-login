@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ErrorMessage from './ErrorMessage'
+import UserMessage from './UserMessage'
 
 const MfaForm = ({maskedEmail, code, onCodeChange, onValidate, disableVerify, onCancel, errorMsg}) => {
   return (
     <form>
       <div id="div-forgot-password-msg">
-        <ErrorMessage msg={errorMsg}/>
+        <UserMessage errorMessage={errorMsg}/>
         <h1>Account Verification</h1>
         <br/>
         <p>For additional security, we need to verify your account.</p>

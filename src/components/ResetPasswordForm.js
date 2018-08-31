@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ErrorMessage from './ErrorMessage'
+import UserMessage from './UserMessage'
 import PasswordInstructions from './PasswordInstructions'
 
 const ResetPasswordForm = ({ email, errorMsg, code, newPassword, confirmPassword, onCodeChange, onNewPasswordChange, onConfirmPasswordChange, onSubmit }) => {
   return (
     <form>
       <h1>Password Reset</h1>
-      <ErrorMessage msg={errorMsg}/>
+      <UserMessage errorMessage={errorMsg}/>
       <br/>
       <div id="div-forgot-password-msg">
         <div>Please check your email.</div>

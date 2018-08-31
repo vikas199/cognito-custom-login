@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ErrorMessage from './ErrorMessage'
+import UserMessage from './UserMessage'
 
-const LoginForm = ({onSubmit, errorMsg, email, password, onEmailChange, onPasswordChange, disableSignIn}) => {
+const LoginForm = ({onSubmit, errorMsg, successMessage, email, password, onEmailChange, onPasswordChange, disableSignIn}) => {
   return (
     <form>
       <span className='textDescription-customizable'><h1>Log In</h1></span>
-      <ErrorMessage msg={errorMsg}/>
+      <UserMessage errorMessage={errorMsg} successMessage={successMessage}/>
       <label className='label-customizable' htmlFor='email'>Email</label>
       <input id='email' name='email' type='text' className='form-control inputField-customizable'
         placeholder='Email' value={email} onChange={onEmailChange}/>
@@ -29,6 +29,7 @@ const LoginForm = ({onSubmit, errorMsg, email, password, onEmailChange, onPasswo
 LoginForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   errorMsg: PropTypes.string,
+  successMessage: PropTypes.string,
   email: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
   onEmailChange: PropTypes.func.isRequired,

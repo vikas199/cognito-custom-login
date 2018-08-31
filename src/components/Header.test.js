@@ -3,7 +3,7 @@ import { shallow } from 'enzyme'
 import Header from './Header'
 import headerLogo from './../assets/images/CWS-CARES-tempLogo.png'
 
-describe('ErrorMessage.js Tests', () => {
+describe('Header.js Tests', () => {
   it('should display correct image', () => {
     const wrapper = shallow(<Header/>)
 

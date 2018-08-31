@@ -107,6 +107,7 @@ class LoginPage extends Component {
     event.preventDefault()
     const showValidationArea = this.showValidationArea
     const showNewPasswordRequiredArea = this.showNewPasswordRequiredArea
+    this.props.history.push({msg: ''})
     const showError = this.showError
     const setCognitoToken = this.setCognitoToken
 
@@ -209,6 +210,7 @@ class LoginPage extends Component {
           onSubmit={event => this.login(event)}
           disableSignIn={this.state.disableSignIn}
           errorMsg={this.state.errorMsg}
+          successMessage={this.props.history.location.msg}
           email={this.state.email}
           password={this.state.password}
           onEmailChange={this.onInputChange}
@@ -229,6 +231,12 @@ class LoginPage extends Component {
         </form>
       </React.Fragment>
     )
+  }
+}
+
+LoginPage.defaultProps = {
+  history: {
+    location: {msg: ''}
   }
 }
 

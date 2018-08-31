@@ -210,6 +210,7 @@ describe('LoginPage.js Tests', () => {
     const mockAuthenticateUserDefaultAuth = jest.fn()
     const mockSendCustomChallengeAnswer = jest.fn()
     const mockSetAuthenticationFlowType = jest.fn()
+    const mockPush = jest.fn()
     const event = { preventDefault: () => {} }
     let cognitoUser = {
       authenticateUserDefaultAuth: mockAuthenticateUserDefaultAuth,
@@ -221,6 +222,7 @@ describe('LoginPage.js Tests', () => {
     const mockAuthCreateUser = jest.fn()
 
     Auth.createUser = mockAuthCreateUser
+    let history
 
     beforeEach(() => {
       cognitoUser = {
@@ -230,6 +232,7 @@ describe('LoginPage.js Tests', () => {
         deviceKey: 'device_key'
       }
       mockAuthCreateUser.mockReturnValue(cognitoUser)
+      history = {push: mockPush, location: {msg: ''}}
     })
 
     afterEach(() => {
@@ -240,13 +243,14 @@ describe('LoginPage.js Tests', () => {
     })
 
     it('sets cognitoUser to state', () => {
-      const wrapper = shallow(<LoginPage />)
+      const wrapper = shallow(<LoginPage history={history}/>)
+
       wrapper.instance().login(event)
       expect(wrapper.state().cognitoUser).toEqual(cognitoUser)
     })
 
     it('sets authenticationFlowType to CUSTOM_AUTH', () => {
-      const wrapper = shallow(<LoginPage />)
+      const wrapper = shallow(<LoginPage history={history}/>)
       wrapper.instance().login(event)
 
       expect(mockSetAuthenticationFlowType.mock.calls.length).toEqual(1)
@@ -254,7 +258,7 @@ describe('LoginPage.js Tests', () => {
     })
 
     it('calls cognitoUser.authenticateUserDefaultAuth', () => {
-      const wrapper = shallow(<LoginPage />)
+      const wrapper = shallow(<LoginPage history={history}/>)
       wrapper.instance().login(event)
 
       expect(mockAuthenticateUserDefaultAuth.mock.calls.length).toEqual(1)
@@ -263,7 +267,7 @@ describe('LoginPage.js Tests', () => {
     it('displays email is required if InvalidParameter', () => {
       const mockShowError = jest.fn()
 
-      const wrapper = shallow(<LoginPage />)
+      const wrapper = shallow(<LoginPage history={history}/>)
       cognitoUser.authenticateUserDefaultAuth = (details, callback) => {
         callback.onFailure({code: 'InvalidParameterException', message: 'some_message'})
       }
@@ -275,10 +279,10 @@ describe('LoginPage.js Tests', () => {
       expect(mockShowError.mock.calls[0][0]).toEqual('Email is required')
     })
 
-    it('displays given msg if not InvalidParameter', () => {
+    it('displays given errorMessage if not InvalidParameter', () => {
       const mockShowError = jest.fn()
 
-      const wrapper = shallow(<LoginPage />)
+      const wrapper = shallow(<LoginPage history={history}/>)
       cognitoUser.authenticateUserDefaultAuth = (details, callback) => {
         callback.onFailure({code: 'something', message: 'some_message'})
       }
@@ -293,7 +297,7 @@ describe('LoginPage.js Tests', () => {
     it('changes errorMsg state to empty string after successful signIn', () => {
       const mockShowError = jest.fn()
 
-      const wrapper = shallow(<LoginPage />)
+      const wrapper = shallow(<LoginPage history={history}/>)
       cognitoUser.authenticateUserDefaultAuth = (details, callback) => {
         callback.onFailure({code: 'something', message: 'some_message'})
       }
@@ -314,7 +318,7 @@ describe('LoginPage.js Tests', () => {
       it('calls showError on Error', () => {
         const mockShowError = jest.fn()
 
-        const wrapper = shallow(<LoginPage />)
+        const wrapper = shallow(<LoginPage history={history}/>)
         cognitoUser.authenticateUserDefaultAuth = (details, callback) => {
           callback.customChallenge()
         }
@@ -339,7 +343,7 @@ describe('LoginPage.js Tests', () => {
           deviceKey: 'device_key',
           sendCustomChallengeAnswer: sendCustomChallengeAnswer
         }
-        const wrapper = shallow(<LoginPage />)
+        const wrapper = shallow(<LoginPage history={history}/>)
         wrapper.setState(
           {
             cognitoUser: cognitoUser,
@@ -355,7 +359,7 @@ describe('LoginPage.js Tests', () => {
 
       it('calls sendToRedirectUri', () => {
         const mockSetCognitoToken = jest.fn()
-        const wrapper = shallow(<LoginPage />)
+        const wrapper = shallow(<LoginPage history={history}/>)
         cognitoUser.authenticateUserDefaultAuth = (details, callback) => {
           callback.customChallenge()
         }
@@ -371,7 +375,7 @@ describe('LoginPage.js Tests', () => {
 
       it('shows validation area', () => {
         const mockShowValidationArea = jest.fn()
-        const wrapper = shallow(<LoginPage />)
+        const wrapper = shallow(<LoginPage history={history}/>)
         cognitoUser.authenticateUserDefaultAuth = (details, callback) => {
           callback.customChallenge()
         }
@@ -390,13 +394,13 @@ describe('LoginPage.js Tests', () => {
 
     describe('login button', () => {
       it('login button default state', () => {
-        const wrapper = shallow(<LoginPage />)
+        const wrapper = shallow(<LoginPage history={history}/>)
         expect(wrapper.find(LoginForm).props().disableSignIn).toEqual(false)
       })
 
       it('changes login in button state', () => {
         const mockSetCognitoToken = jest.fn()
-        const wrapper = shallow(<LoginPage />)
+        const wrapper = shallow(<LoginPage history={history}/>)
         expect(wrapper.find(LoginForm).props().disableSignIn).toEqual(false)
         wrapper.instance().login(event)
         wrapper.setState({ disableSignIn: true })
