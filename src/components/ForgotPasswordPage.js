@@ -111,7 +111,7 @@ class ForgotPasswordPage extends Component {
     let props = this.props
     switch (this.state.confirm_password) {
       case this.state.new_password:
-        cognitoUser.confirmPassword(this.state.code, this.state.new_password, {
+        cognitoUser.confirmPassword(this.state.code.trim(), this.state.new_password, {
           onSuccess: function () {
             props.history.push('/login')
             props.history.push({msg: 'Password has been reset successfully. Please use your new password to login.'})

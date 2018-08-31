@@ -17,7 +17,7 @@ export function createUser (state) {
 export function authenticationDetails (state) {
   var authenticationData = {
     Username: state.email.toLowerCase(),
-    Password: state.password
+    Password: state.password.trim()
   }
 
   return new AuthenticationDetails(authenticationData)

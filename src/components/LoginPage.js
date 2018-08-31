@@ -86,7 +86,7 @@ class LoginPage extends Component {
   validate (event) {
     event.preventDefault()
     const cognitoUser = this.state.cognitoUser
-    const challengeResponses = this.state.code + ' ' + cognitoUser.deviceKey
+    const challengeResponses = this.state.code.trim() + ' ' + cognitoUser.deviceKey
     const showError = this.showError
 
     const setCognitoToken = this.setCognitoToken

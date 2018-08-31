@@ -225,7 +225,7 @@ describe('ForgotPasswordPage.js Tests', () => {
         callback.onFailure({message: 'some_message'})
       }
 
-      instance.setState({new_password: 'foobar', confirm_password: 'foobar', cognitoUser: cognitoUser})
+      instance.setState({new_password: 'foobar', confirm_password: 'foobar', cognitoUser: cognitoUser, code: '  some_code'})
       instance.changePassword(event)
 
       expect(mockShowError.mock.calls.length).toEqual(1)
@@ -244,7 +244,7 @@ describe('ForgotPasswordPage.js Tests', () => {
         callback.onFailure(err)
       }
 
-      instance.setState({new_password: 'foo', confirm_password: 'foo', cognitoUser: cognitoUser})
+      instance.setState({new_password: 'foo', confirm_password: 'foo', cognitoUser: cognitoUser, code: 'some_code  '})
       instance.changePassword(event)
 
       expect(mockShowError.mock.calls.length).toEqual(1)
@@ -263,7 +263,7 @@ describe('ForgotPasswordPage.js Tests', () => {
         callback.onSuccess()
       }
 
-      instance.setState({new_password: 'foobar', confirm_password: 'foobar', cognitoUser: cognitoUser})
+      instance.setState({new_password: 'foobar', confirm_password: 'foobar', cognitoUser: cognitoUser, code: ' some_code  '})
       instance.changePassword(event)
 
       expect(mockPush.mock.calls.length).toEqual(2)
