@@ -10,7 +10,7 @@ const ForgotPasswordForm = ({errorMsg, email, onChange, onSubmit, disableResetPa
       <br/>
       <label htmlFor='email' className='label-customizable'>Enter your login email below and we will send a message to reset your password</label>
       <input name="emal" id="email" className="form-control inputField-customizable" type="text"
-        placeholder="Email" value={email} onChange={onChange} aria-labelledby='email_label'/>
+        placeholder="Email" value={email} onChange={onChange} aria-labelledby='email_label' tabIndex="1"/>
       <div className= 'submit-block'>
         <button
           type="button"
@@ -24,7 +24,8 @@ const ForgotPasswordForm = ({errorMsg, email, onChange, onSubmit, disableResetPa
           id="validateButton"
           className="reset-password-button btn btn-primary"
           disabled={!email || disableResetPassword}
-          onClick={onSubmit}>
+          onClick={onSubmit}
+          tabIndex="2">
           {disableResetPassword ? 'Loading....' : 'Reset my password'}
         </button>
       </div>

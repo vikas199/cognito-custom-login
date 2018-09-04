@@ -24,7 +24,8 @@ const MfaForm = ({maskedEmail, code, onCodeChange, onValidate, disableVerify, on
         name="code"
         value={code}
         onChange={onCodeChange}
-        autoFocus />
+        autoFocus
+        tabIndex="1"/>
       <div className= 'submit-block'>
         <button
           type="button"
@@ -38,7 +39,8 @@ const MfaForm = ({maskedEmail, code, onCodeChange, onValidate, disableVerify, on
           id="validateButton"
           className="validate-button btn btn-primary"
           disabled={!code || disableVerify}
-          onClick={onValidate}>
+          onClick={onValidate}
+          tabIndex="2">
           {disableVerify ? 'Loading....' : 'Verify'}
         </button>
       </div>
