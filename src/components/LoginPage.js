@@ -186,6 +186,7 @@ class LoginPage extends Component {
     const perryLoginUrl = `${process.env.PERRY_URL}/perry/login`
     let comp
     switch (this.state.mode) {
+      // MFA PAGE
       case MODE.VALIDATING:
         comp = <MfaForm
           disableVerify={this.state.disableVerify}
