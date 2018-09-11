@@ -24,6 +24,7 @@
     "build:training": "ENV_PATH=./env/.training.env babel-node tools/build.js && npm run open:dist",
     "build:demoint": "ENV_PATH=./env/.demoint.env babel-node tools/build.js && npm run open:dist",
     "build:performance": "ENV_PATH=./env/.performance.env babel-node tools/build.js && npm run open:dist",
+    "build:production": "ENV_PATH=./env/.production.env babel-node tools/build.js && npm run open:dist",
     "test": "jest",
     "test:CI": "babel-node tools/testCi.js",
     "test:cover": "npm run test -- --coverage ",
