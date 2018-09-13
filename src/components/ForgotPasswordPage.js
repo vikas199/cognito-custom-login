@@ -36,7 +36,7 @@ class ForgotPasswordPage extends Component {
 
   onEmailSubmit (event) {
     event.preventDefault()
-    // let showResetArea = this.showResetArea
+    let showResetArea = this.showResetArea
     let showError = this.showError
     let cognitoUser = Auth.createUser(this.state)
     console.log(cognitoUser.adminCreateUser)
@@ -45,26 +45,26 @@ class ForgotPasswordPage extends Component {
       disableResetPassword: true
     })
 
-    cognitoUser.resendConfirmationCode(function (err, result) {
-      if (err) {
-        console.log(err)
-        return
-      }
-      console.log(result)
-    })
-
-    // cognitoUser.forgotPassword({
-    //   onFailure: function (err) {
-    //     if (err.code === 'InvalidParameterException') {
-    //       showError('Email is required')
-    //     } else {
-    //       showError(err.message)
-    //     }
-    //   },
-    //   inputVerificationCode () {
-    //     showResetArea()
+    // cognitoUser.resendConfirmationCode(function (err, result) {
+    //   if (err) {
+    //     console.log(err)
+    //     return
     //   }
+    //   console.log(result)
     // })
+
+    cognitoUser.forgotPassword({
+      onFailure: function (err) {
+        if (err.code === 'InvalidParameterException') {
+          showError('Email is required')
+        } else {
+          showError(err.message)
+        }
+      },
+      inputVerificationCode () {
+        showResetArea()
+      }
+    })
   }
 
   updateEmailState (event) {
