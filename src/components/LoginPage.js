@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import {customErrorMessage} from '../utils/CommonHelper'
 import qs from 'query-string'
 import LoginForm from './LoginForm'
 import MfaForm from './MfaForm'
@@ -124,11 +124,8 @@ class LoginPage extends Component {
         showNewPasswordRequiredArea()
       },
       onFailure: function (err) {
-        if (err.code === 'InvalidParameterException') {
-          showError('Email is required')
-        } else {
-          showError(err.message)
-        }
+        const errorMessage = customErrorMessage(err.message)
+        showError(errorMessage)
       },
       customChallenge: function () {
         // device challenge

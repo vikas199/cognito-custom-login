@@ -264,22 +264,37 @@ describe('LoginPage.js Tests', () => {
       expect(mockAuthenticateUserDefaultAuth.mock.calls.length).toEqual(1)
     })
 
-    it('displays email is required if InvalidParameter', () => {
+    it('displays custom message(email is required) when both email/password are empty', () => {
       const mockShowError = jest.fn()
 
       const wrapper = shallow(<LoginPage history={history}/>)
       cognitoUser.authenticateUserDefaultAuth = (details, callback) => {
-        callback.onFailure({code: 'InvalidParameterException', message: 'some_message'})
+        callback.onFailure({code: 'InvalidParameterException', message: 'Missing required parameter USERNAME'})
       }
       const instance = wrapper.instance()
       instance.showError = mockShowError
       instance.login(event)
 
       expect(mockShowError.mock.calls.length).toEqual(1)
-      expect(mockShowError.mock.calls[0][0]).toEqual('Email is required')
+      expect(mockShowError.mock.calls[0][0]).toEqual('Email is required.')
     })
 
-    it('displays given errorMessage if not InvalidParameter', () => {
+    it('displays custom error message when user is expired', () => {
+      const mockShowError = jest.fn()
+
+      const wrapper = shallow(<LoginPage history={history}/>)
+      cognitoUser.authenticateUserDefaultAuth = (details, callback) => {
+        callback.onFailure({code: 'NotAuthorizedException', message: 'User account has expired, it must be reset by an administrator.'})
+      }
+      const instance = wrapper.instance()
+      instance.showError = mockShowError
+      instance.login(event)
+
+      expect(mockShowError.mock.calls.length).toEqual(1)
+      expect(mockShowError.mock.calls[0][0]).toEqual('Your temporary password has expired and must be reset by an administrator.')
+    })
+
+    it('displays default error message', () => {
       const mockShowError = jest.fn()
 
       const wrapper = shallow(<LoginPage history={history}/>)
