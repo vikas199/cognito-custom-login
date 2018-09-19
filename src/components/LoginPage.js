@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {customErrorMessage} from '../utils/CommonHelper'
+import {validatePassword} from '../utils/validatePassword'
 import qs from 'query-string'
 import LoginForm from './LoginForm'
 import MfaForm from './MfaForm'
@@ -26,7 +27,12 @@ class LoginPage extends Component {
       newPassword: '',
       confirmPassword: '',
       disableSignIn: false,
-      disableVerify: false
+      disableVerify: false,
+      maxLength: false,
+      lowerCase: false,
+      upperCase: false,
+      number: false,
+      specialCharacter: false
     }
     this.login = this.login.bind(this)
     this.validate = this.validate.bind(this)
@@ -42,6 +48,9 @@ class LoginPage extends Component {
 
   onInputChange (event) {
     this.setState({ [event.target.id]: event.target.value })
+    if (event.target.id === 'newPassword') {
+      validatePassword(this, event.target.value)
+    }
   }
 
   showValidationArea (maskedEmail) {
@@ -196,7 +205,11 @@ class LoginPage extends Component {
         break
       case MODE.NEW_PASSWORD:
         comp = <NewPasswordRequiredForm
-          errorMsg={this.state.errorMsg}
+          validateLength={this.state.maxLength}
+          validateLowerCase={this.state.lowerCase}
+          validateUpperCase={this.state.upperCase}
+          validateNumber={this.state.number}
+          validateSpecialCharacter={this.state.specialCharacter}
           confirmPassword={this.state.confirmPassword}
           newPassword={this.state.newPassword}
           onNewPasswordChange={this.onInputChange}

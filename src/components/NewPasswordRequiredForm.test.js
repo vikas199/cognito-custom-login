@@ -69,6 +69,16 @@ describe('NewPasswordRequiredForm.js Tests', () => {
     expect(input.at(0).props().onChange).toEqual(onChange)
   })
 
+  it('contains passwordInstructions', () => {
+    const wrapper = shallow(<NewPasswordRequiredForm validateLowerCase={false} validateSpecialCharacter={false} validateUpperCase={false} validateNumber={false} validateLength={false}/>)
+
+    let passwordInstructions = wrapper.find('PasswordInstructions')
+    let props = {validateUpperCase: false, validateNumber: false, validateLength: false, validateLowerCase: false, validateSpecialCharacter: false}
+
+    expect(passwordInstructions.length).toEqual(1)
+    expect(passwordInstructions.props()).toEqual(props)
+  })
+
   it('contains text input for confirmPassword', () => {
     let mock = jest.fn()
     const wrapper = shallow(<NewPasswordRequiredForm confirmPassword="New Password" onNewPasswordChange={mock} onConfirmPasswordChange={mock} onSubmit={mock}/>)

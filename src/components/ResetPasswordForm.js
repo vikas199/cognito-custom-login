@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import UserMessage from './UserMessage'
 import PasswordInstructions from './PasswordInstructions'
 
-const ResetPasswordForm = ({ email, errorMsg, code, newPassword, confirmPassword, onCodeChange, onNewPasswordChange, onConfirmPasswordChange, onSubmit }) => {
+const ResetPasswordForm = ({ email, errorMsg, validateLowerCase, validateSpecialCharacter, validateUpperCase, validateNumber, validateLength, code, newPassword, confirmPassword, onCodeChange, onNewPasswordChange, onConfirmPasswordChange, onSubmit }) => {
   return (
     <form>
       <h1>Password Reset</h1>
@@ -19,7 +19,11 @@ const ResetPasswordForm = ({ email, errorMsg, code, newPassword, confirmPassword
       <br/>
       <label id='new_password_label'>Create Password</label>
       <input id="new_password" className="form-control inputField-customizable" type="password" name="password" value={newPassword} onChange={onNewPasswordChange} aria-labelledby='new_password_label'/>
-      <PasswordInstructions/>
+      <PasswordInstructions validateLowerCase={validateLowerCase}
+        validateUpperCase={validateUpperCase}
+        validateNumber={validateNumber}
+        validateLength={validateLength}
+        validateSpecialCharacter={validateSpecialCharacter}/>
       <br/>
       <label id='confirm_password_label'>Confirm New Password Again</label>
       <input id="confirm_password" className="form-control inputField-customizable" type="password" name="confirmPassword" value={confirmPassword} onChange={onConfirmPasswordChange} aria-labelledby='confirm_password_label'/>

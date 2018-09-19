@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import * as Auth from '../utils/Auth'
 import ForgotPasswordForm from './ForgotPasswordForm'
+import {validatePassword} from '../utils/validatePassword'
 import ResetPasswordForm from './ResetPasswordForm'
 
 // TODO - redirect_uri on the url?  save it to state
@@ -14,7 +15,12 @@ class ForgotPasswordPage extends Component {
       errorMsg: undefined,
       new_password: '',
       confirm_password: '',
-      disableResetPassword: false
+      disableResetPassword: false,
+      maxLength: false,
+      lowerCase: false,
+      upperCase: false,
+      number: false,
+      specialCharacter: false
     }
     this.showResetArea = this.showResetArea.bind(this)
     this.showError = this.showError.bind(this)
@@ -74,6 +80,7 @@ class ForgotPasswordPage extends Component {
     this.setState({
       new_password: event.target.value
     })
+    validatePassword(this, event.target.value)
   }
 
   updateConfirmPasswordState (event) {
@@ -139,6 +146,11 @@ class ForgotPasswordPage extends Component {
     if (this.state.reseting) {
       return (
         <ResetPasswordForm
+          validateLength={this.state.maxLength}
+          validateLowerCase={this.state.lowerCase}
+          validateUpperCase={this.state.upperCase}
+          validateNumber={this.state.number}
+          validateSpecialCharacter={this.state.specialCharacter}
           email={this.state.email}
           errorMsg={this.state.errorMsg}
           code={this.state.code}

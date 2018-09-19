@@ -64,11 +64,12 @@ describe('LoginPage.js Tests', () => {
     expect(wrapper.state().password).toEqual('password')
   })
 
-  it('sets newPassword on input change', () => {
+  it('sets newPassword on input change and validates newPassword', () => {
     const wrapper = shallow(<LoginPage />)
 
     wrapper.instance().onInputChange({ target: { id: 'newPassword', value: 'password' } })
     expect(wrapper.state().newPassword).toEqual('password')
+    expect(wrapper.state().maxLength).toEqual(true)
   })
 
   it('sets confirmPassoword on input change', () => {
@@ -76,6 +77,7 @@ describe('LoginPage.js Tests', () => {
 
     wrapper.instance().onInputChange({ target: { id: 'confirmPassword', value: 'password' } })
     expect(wrapper.state().confirmPassword).toEqual('password')
+    expect(wrapper.state().maxLength).toEqual(false)
   })
 
   it('sets up correctly when showing validation area', () => {
@@ -121,7 +123,12 @@ describe('LoginPage.js Tests', () => {
       newPassword: '',
       confirmPassword: '',
       disableSignIn: false,
-      disableVerify: false
+      disableVerify: false,
+      maxLength: false,
+      lowerCase: false,
+      upperCase: false,
+      number: false,
+      specialCharacter: false
     })
   })
 
