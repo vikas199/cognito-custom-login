@@ -7,19 +7,22 @@ plugins:
 provider:
   name: aws
   runtime: nodejs8.10
+  stage: ${opt:env, 'preint'}
+  region: ${file(./config/serverless.config.yml):${self:provider.stage}.aws.REGION}
+
 
 custom:
   fullstack:
     #domain: my-custom-domain.com
-    #certificate: arn:aws:acm:us-east-1:...     # The ARN for the SSL cert to use form AWS CertificateManager
-    bucketName: com.cwds.test.custom.login     # Unique name for the S3 bucket to host the client assets
-    distributionFolder: ./dist            # Path to the client assets to be uploaded to S3
-    indexDocument: index.html                  # The index document to use
-    errorDocument: index.html                  # The error document to use
-    singlePageApp: true                       # If true 403 errors will be rerouted (missing assets) to your root index document to support single page apps like React and Angular where the js framework handles routing
-    #apiPath: api                               # The path prefix for your API Gateway lambdas. The path for the lambda http event trigger needs to start with this too eg. api/myMethod 
-    clientCommand: yarn build                   # Command to generate the client assets. Defaults to doing nothing
-    clientSrcPath: .                      # The path to where you want to run the clientCommand
+    #certificate: arn:aws:acm:us-east-1:...             # The ARN for the SSL cert to use form AWS CertificateManager
+    bucketName: gov.cwds.custom-login.${self:provider.stage}  # Unique name for the S3 bucket to host the client assets
+    distributionFolder: ./dist                          # Path to the client assets to be uploaded to S3
+    indexDocument: index.html                           # The index document to use
+    errorDocument: index.html                           # The error document to use
+    singlePageApp: true                                 # If true 403 errors will be rerouted (missing assets) to your root index document to support single page apps like React and Angular where the js framework handles routing
+    #apiPath: api                                       # The path prefix for your API Gateway lambdas. The path for the lambda http event trigger needs to start with this too eg. api/myMethod 
+    clientCommand: yarn build:${self:provider.stage}    # Command to generate the client assets. Defaults to doing nothing
+    clientSrcPath: .                                    # The path to where you want to run the clientCommand
     #waf: 00000000-0000-0000-0000-000000000000  # ID of the Web Application Firewall. Defaults to not used
     #logging:
       #bucket: my-bucket.s3.amazonaws.com
