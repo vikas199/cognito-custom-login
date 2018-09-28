@@ -1,5 +1,5 @@
 service:
-  name: cognito-custom-login
+  name: cognito
 
 plugins:
   - fullstack-serverless
@@ -8,14 +8,13 @@ provider:
   name: aws
   runtime: nodejs8.10
   stage: ${opt:env, 'preint'}
-  region: ${file(./config/serverless.config.yml):${self:provider.stage}.aws.REGION}
-
+  region: us-west-2
 
 custom:
   fullstack:
     #domain: my-custom-domain.com
     #certificate: arn:aws:acm:us-east-1:...             # The ARN for the SSL cert to use form AWS CertificateManager
-    bucketName: gov.cwds.custom-login.${self:provider.stage}  # Unique name for the S3 bucket to host the client assets
+    bucketName: custom-login.${self:provider.stage}  # Unique name for the S3 bucket to host the client assets
     distributionFolder: ./dist                          # Path to the client assets to be uploaded to S3
     indexDocument: index.html                           # The index document to use
     errorDocument: index.html                           # The error document to use
