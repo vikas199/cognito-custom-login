@@ -80,7 +80,6 @@ class LoginPage extends Component {
   showError (msg, mode = MODE.LOGIN) {
     this.setState({
       mode: mode,
-      maskedEmail: undefined,
       errorMsg: msg,
       email: '',
       password: '',

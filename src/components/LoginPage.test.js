@@ -115,7 +115,7 @@ describe('LoginPage.js Tests', () => {
     expect(wrapper.state()).toEqual({
       code: '',
       mode: 1,
-      maskedEmail: undefined,
+      maskedEmail: 'somevalue',
       errorMsg: 'msg',
       email: '',
       password: '',
