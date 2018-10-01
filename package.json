@@ -19,7 +19,7 @@
     "prebuild": "npm run lint && npm run test && npm run clean-dist",
     "build": "babel-node tools/build.js && npm run open:dist",
     "build:integration": "ENV_PATH=./env/.integration.env babel-node tools/build.js && npm run open:dist",
-    "build:cognitosandbox": "ENV_PATH=./env/.cognitosandbox.env babel-node tools/build.js && npm run open:dist",
+    "build:sandboxcans": "ENV_PATH=./env/.sandboxcans.env babel-node tools/build.js",
     "build:staging": "ENV_PATH=./env/.staging.env babel-node tools/build.js && npm run open:dist",
     "build:training": "ENV_PATH=./env/.training.env babel-node tools/build.js && npm run open:dist",
     "build:demoint": "ENV_PATH=./env/.demoint.env babel-node tools/build.js && npm run open:dist",
