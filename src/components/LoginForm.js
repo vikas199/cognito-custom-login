@@ -15,7 +15,7 @@ const LoginForm = ({onSubmit, errorMsg, successMessage, email, password, onEmail
       <input id='password' name='password' type='password' className='form-control inputField-customizable'
         placeholder='Password' value={password} onChange={onPasswordChange}/>
       <a className='redirect-customizable' href='/forgotPassword'>Forgot your password?</a>
-      <button className="btn btn-primary submitButton-customizable" type="submit" onClick={onSubmit} disabled={disableSignIn}>
+      <button className="btn btn-primary submitButton-customizable" id="submit" type="submit" onClick={onSubmit} disabled={disableSignIn}>
         {disableSignIn ? 'Loading....' : 'Sign In'}
       </button>
       <br/>

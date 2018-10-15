@@ -9,7 +9,7 @@
     "preinstall": "node tools/nodeVersionCheck.js",
     "start-message": "babel-node tools/startMessage.js",
     "prestart": "npm run start-message",
-    "start": "ENV_PATH=./.env concurrently -k -r -s first \"npm run test:watch\" \"npm run open:src\"",
+    "start": "ENV_PATH=./.env concurrently -k -r -s first \"npm run open:src\"",
     "open:src": "babel-node tools/srcServer.js",
     "open:dist": "babel-node tools/distServer.js",
     "lint": "eslint --ext .jsx --ext .js src",
@@ -81,8 +81,11 @@
     "history": "4.6.0",
     "html-webpack-plugin": "3.2.0",
     "identity-obj-proxy": "3.0.0",
-    "jest": "20.0.4",
-    "jest-cli": "20.0.4",
+    "jest": "23.6.0",
+    "jest-cli": "23.6.0",
+    "jest-puppeteer": "3.4.0",
+    "jsdom": "12.2.0",
+    "jsdom-global": "3.0.2",
     "json-loader": "0.5.4",
     "mockdate": "2.0.1",
     "node": "8.9.4",
@@ -91,6 +94,7 @@
     "postcss-loader": "2.0.6",
     "prompt": "1.0.0",
     "prop-types": "15.5.10",
+    "puppeteer": "1.9.0",
     "raf": "3.3.2",
     "react-hot-loader": "4.0.1",
     "react-test-renderer": "16.0.0",
@@ -111,15 +115,5 @@
   "repository": {
     "type": "git",
     "url": ""
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tools/assetsTransformer.js",
-      "\\.(css)$": "<rootDir>/tools/assetsTransformer.js"
-    },
-    "setupFiles": [
-      "raf/polyfill",
-      "./tools/enzymeTestAdapterSetup.js"
-    ]
   }
 }

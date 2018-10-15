@@ -8,7 +8,10 @@
     "document": true,
     "window": true,
     "sessionStorage": true,
-    "fetch": false
+    "fetch": false,
+    "page": true,
+    "browser": true,
+    "jestPuppeteer": true
   },
 
   "rules": {
