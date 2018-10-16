@@ -1,28 +1,36 @@
-describe('CWS-CARES', () => {
-  beforeAll(async () => {
-    jest.setTimeout(10000)
-    await page.goto('https://web.integration.cwds.io')
-  })
+const puppeteer = require('puppeteer')
 
-  it('should display login text on page', async () => {
-    await expect(page).toMatch('Log In')
-  })
+let browser
+let page
 
-  it('should display Account Verification text on page', async () => {
-    await page.type('#email', 'y_test111+role1@outlook.com')
-    await page.type('#password', 'Sunil@0575')
+beforeAll(async () => {
+  // launch browser
+  browser = await puppeteer.launch(
+    {
+      headless: true // headless mode set to false so browser opens up with visual feedback
+    }
+  )
+  // creates a new page in the opened browser
+  page = await browser.newPage()
+})
+
+describe('Login', () => {
+  test('users can login', async () => {
+    await page.goto('http://localhost:3001')
+    await page.click('input[name=email]')
+    await page.type('input[name=email]', 'y_test111+role1@outlook.com')
+    await page.click('input[name=password]')
+    await page.type('input[name=password]', 'Sunil@0575')
     const [response] = await Promise.all([
       page.waitForNavigation({waitUntil: 'load'}),
-      page.click('button[type=submit]')
+      page.click('#submit')
     ])
-    console.log([response])
-    // page.screenshot({ path: 'keyboard.png' })
+    await page.waitForSelector('#div-forgot-password-msg')
     await expect(page).toMatch('Account Verification')
-    // browser.close()
-  })
+  }, 1600000)
+})
 
-  // it('should open a new page', async () => {
-  //   const page = await browser.newPage()
-  //   await page.goto('https://google.com')
-  // })
+// This function occurs after the result of each tests, it closes the browser
+afterAll(() => {
+  browser.close()
 })
