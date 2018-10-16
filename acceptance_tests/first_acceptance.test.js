@@ -1,7 +1,7 @@
 describe('CWS-CARES', () => {
   beforeAll(async () => {
-    jest.setTimeout(90000)
-    await page.goto('http://localhost:3001')
+    jest.setTimeout(10000)
+    await page.goto('https://web.integration.cwds.io')
   })
 
   it('should display login text on page', async () => {
@@ -13,7 +13,7 @@ describe('CWS-CARES', () => {
     await page.type('#password', 'Sunil@0575')
     const [response] = await Promise.all([
       page.waitForNavigation({waitUntil: 'load'}),
-      page.click('#submit')
+      page.click('button[type=submit]')
     ])
     console.log([response])
     // page.screenshot({ path: 'keyboard.png' })
