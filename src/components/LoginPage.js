@@ -32,7 +32,8 @@ class LoginPage extends Component {
       lowerCase: false,
       upperCase: false,
       number: false,
-      specialCharacter: false
+      specialCharacter: false,
+      MfaAttemptsRemaining: 3
     }
     this.login = this.login.bind(this)
     this.validate = this.validate.bind(this)
@@ -77,7 +78,7 @@ class LoginPage extends Component {
     document.getElementById('login-form').submit()
   }
 
-  showError (msg, mode = MODE.LOGIN) {
+  showError (msg, mode = MODE.LOGIN, mfaCount) {
     this.setState({
       mode: mode,
       errorMsg: msg,
@@ -87,7 +88,8 @@ class LoginPage extends Component {
       confirmPassword: '',
       code: '',
       disableSignIn: false,
-      disableVerify: false
+      disableVerify: false,
+      MfaAttemptsRemaining: mfaCount
     })
   }
 
@@ -96,7 +98,7 @@ class LoginPage extends Component {
     const cognitoUser = this.state.cognitoUser
     const challengeResponses = this.state.code.trim() + ' ' + cognitoUser.deviceKey
     const showError = this.showError
-
+    const attemptsRemaining = this.state.MfaAttemptsRemaining
     const setCognitoToken = this.setCognitoToken
     this.setState({
       disableVerify: true
@@ -106,7 +108,9 @@ class LoginPage extends Component {
         setCognitoToken(JSON.stringify(result))
       },
       onFailure: function () {
-        showError('Unable to verify account', MODE.VALIDATING)
+        const count = attemptsRemaining - 1
+        const errorMessage = customErrorMessage(count)
+        count === 0 ? showError('', MODE.LOGIN, 3) : showError(errorMessage, MODE.VALIDATING, count)
       }
     })
   }
@@ -183,7 +187,8 @@ class LoginPage extends Component {
     this.setState({
       disableSignIn: false,
       mode: MODE.LOGIN,
-      errorMsg: ''
+      errorMsg: '',
+      MfaAttemptsRemaining: 3
     })
   }
 

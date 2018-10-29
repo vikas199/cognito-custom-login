@@ -14,6 +14,18 @@ body {
     background: transparent;
 }
 
+.show{
+    display: flex !important;
+}
+
+.fade{
+    opacity: 1 !important;
+}
+
+.alert-body{
+    color: #3B3B3B;
+}
+
 .modal-content {
     width: 100%;
     margin: 0px auto;

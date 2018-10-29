@@ -140,6 +140,12 @@ describe('LoginPage.js Tests', () => {
     expect(wrapper.state().errorMsg).toEqual('')
   })
 
+  it('MfaAttemptsRemaining should have 3 as initial value', () => {
+    const wrapper = shallow(<LoginPage/>)
+
+    expect(wrapper.state().MfaAttemptsRemaining).toEqual(3)
+  })
+
   describe('validate Tests', () => {
     const event = { preventDefault: () => {} }
     it('calls cognitoUser.sendCustomChallengeAnswer with correct value', () => {
@@ -175,13 +181,15 @@ describe('LoginPage.js Tests', () => {
       wrapper.setState(
         {
           cognitoUser: cognitoUser,
-          code: 'some_code'
+          code: 'some_code',
+          MfaAttemptsRemaining: 2
         }
       )
+      expect(wrapper.state().MfaAttemptsRemaining).toEqual(2)
       wrapper.instance().showError = mockShowError
       wrapper.instance().validate(event)
       expect(mockShowError.mock.calls.length).toEqual(1)
-      expect(mockShowError.mock.calls[0][0]).toEqual('Unable to verify account')
+      expect(mockShowError.mock.calls[0][0]).toEqual(<span>Error. You entered the wrong verification code, please try again. You have <b>1</b> attempt remaining.</span>)
     })
 
     describe('verify button', () => {
