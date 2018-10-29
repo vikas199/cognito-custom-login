@@ -16,7 +16,7 @@ beforeAll(async () => {
 
 describe('Login', () => {
   test('users can login', async () => {
-    await page.goto('http://localhost:3001')
+    await page.goto('http://localhost:3005')
     await page.click('input[name=email]')
     await page.type('input[name=email]', 'y_test111+role1@outlook.com')
     await page.click('input[name=password]')
@@ -27,7 +27,7 @@ describe('Login', () => {
     ])
     await page.waitForSelector('#div-forgot-password-msg')
     await expect(page).toMatch('Account Verification')
-  }, 1600000)
+  }, 10000)
 })
 
 // This function occurs after the result of each tests, it closes the browser
