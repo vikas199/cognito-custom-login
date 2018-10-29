@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import UserMessage from './UserMessage'
+import { Alert } from '@cwds/components'
 
 const ForgotPasswordForm = ({errorMsg, email, onChange, onSubmit, disableResetPassword, onCancel}) => {
   return (
     <form>
       <h1>Password Reset</h1>
-      <UserMessage errorMessage={errorMsg}/>
+      {errorMsg && <Alert className='forgetPasswordAlert' color='danger'>{errorMsg}</Alert>}
       <br/>
       <label htmlFor='email' className='label-customizable'>Enter your login email below and we will send a message to reset your password</label>
       <input name="emal" id="email" className="form-control inputField-customizable" type="text"

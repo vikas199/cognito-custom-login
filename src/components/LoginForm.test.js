@@ -1,7 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import LoginForm from './LoginForm'
-import UserMessage from './UserMessage'
 
 describe('LoginForm.js Tests', () => {
   it('should require correct params', () => {
@@ -30,7 +29,7 @@ describe('LoginForm.js Tests', () => {
     expect(h1.text()).toEqual('Log In')
   })
 
-  it('should pass errorMsg to <UserMessage>', () => {
+  it('should pass errorMsg to <Alert>', () => {
     let mock = jest.fn()
     const wrapper = shallow(<LoginForm
       email="a"
@@ -40,12 +39,12 @@ describe('LoginForm.js Tests', () => {
       onPasswordChange={mock}
       errorMsg="some_message"/>)
 
-    let UserMessageTag = wrapper.find(UserMessage)
-    expect(UserMessageTag).toHaveLength(1)
-    expect(UserMessageTag.props().errorMessage).toEqual('some_message')
+    const UserMessage = wrapper.find('.loginFormErrorAlert')
+    expect(UserMessage).toHaveLength(1)
+    expect(UserMessage.props().children).toEqual('some_message')
   })
 
-  it('should pass success message to <UserMessage>', () => {
+  it('should pass successMessage to <Alert>', () => {
     let mock = jest.fn()
     const wrapper = shallow(<LoginForm
       email=''
@@ -56,9 +55,9 @@ describe('LoginForm.js Tests', () => {
       errorMsg=''
       successMessage='some_message'/>)
 
-    let UserMessageTag = wrapper.find(UserMessage)
-    expect(UserMessageTag).toHaveLength(1)
-    expect(UserMessageTag.props().successMessage).toEqual('some_message')
+    const UserMessage = wrapper.find('.loginFormSuccessAlert')
+    expect(UserMessage).toHaveLength(1)
+    expect(UserMessage.props().children).toEqual('some_message')
   })
 
   describe('email input Tests', () => {

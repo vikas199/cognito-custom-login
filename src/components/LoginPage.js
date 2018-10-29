@@ -214,6 +214,7 @@ class LoginPage extends Component {
           validateUpperCase={this.state.upperCase}
           validateNumber={this.state.number}
           validateSpecialCharacter={this.state.specialCharacter}
+          errorMsg={this.state.errorMsg}
           confirmPassword={this.state.confirmPassword}
           newPassword={this.state.newPassword}
           onNewPasswordChange={this.onInputChange}

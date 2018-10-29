@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import UserMessage from './UserMessage'
+import { Alert } from '@cwds/components'
 
 const LoginForm = ({onSubmit, errorMsg, successMessage, email, password, onEmailChange, onPasswordChange, disableSignIn}) => {
   return (
     <form>
       <span className='textDescription-customizable'><h1>Log In</h1></span>
-      <UserMessage errorMessage={errorMsg} successMessage={successMessage}/>
+      {errorMsg && <Alert className='loginFormErrorAlert' color='danger'>{errorMsg}</Alert>}
+      {successMessage && <Alert className='loginFormSuccessAlert' color='success'>{successMessage}</Alert>}
       <label className='label-customizable' htmlFor='email'>Email</label>
       <input id='email' name='email' type='text' className='form-control inputField-customizable'
         placeholder='Email' value={email} onChange={onEmailChange}/>

@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import UserMessage from './UserMessage'
+import { Alert } from '@cwds/components'
 import PasswordInstructions from './PasswordInstructions'
 
 const NewPasswordRequiredForm = ({errorMsg, validateLowerCase, validateSpecialCharacter, validateUpperCase, validateNumber, validateLength, newPassword, confirmPassword, onNewPasswordChange, onConfirmPasswordChange, onSubmit}) => {
   return (
     <form>
       <h1>Update Password</h1>
-      <UserMessage errorMessage={errorMsg}/>
+      {errorMsg && <Alert className='newPasswordRequiredAlert' color='danger'>{errorMsg}</Alert>}
       <br/>
       <label id='first_new_password'>New Password</label>
       <input id="newPassword" className="form-control inputField-customizable" type="password" name="password" value={newPassword} onChange={onNewPasswordChange} aria-labelledby="first_new_password"/>

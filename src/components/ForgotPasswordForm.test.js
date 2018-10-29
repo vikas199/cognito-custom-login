@@ -1,7 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import ForgotPasswordForm from './ForgotPasswordForm'
-import UserMessage from './UserMessage'
 
 describe('ForgotPasswordForm.js Tests', () => {
   it('should require correct params', () => {
@@ -28,13 +27,13 @@ describe('ForgotPasswordForm.js Tests', () => {
     expect(h1.text()).toEqual('Password Reset')
   })
 
-  it('should pass errorMsg to <UserMessage>', () => {
+  it('should pass errorMsg to <Alert>', () => {
     let mock = jest.fn()
     const wrapper = shallow(<ForgotPasswordForm email="a" onChange={mock} onSubmit={mock} errorMsg="some_message"/>)
 
-    let UserMessageTag = wrapper.find(UserMessage)
-    expect(UserMessageTag).toHaveLength(1)
-    expect(UserMessageTag.props().errorMessage).toEqual('some_message')
+    const UserMessage = wrapper.find('.forgetPasswordAlert')
+    expect(UserMessage).toHaveLength(1)
+    expect(UserMessage.props().children).toEqual('some_message')
   })
 
   it('should display instructions', () => {
