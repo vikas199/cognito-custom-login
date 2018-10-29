@@ -1,7 +1,8 @@
 module.exports = {
   launch: {
     dumpio: true,
-    headless: 'false'
+    headless: 'false',
+    args: ['--no-sandbox']
   },
   server: {
     command: 'yarn start',
