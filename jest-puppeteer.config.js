@@ -1,12 +1,13 @@
 module.exports = {
   launch: {
     dumpio: true,
-    headless: 'false',
+    headless: 'true',
     args: ['--no-sandbox']
   },
   server: {
-    command: 'yarn start',
-    port: 3005
+    command: 'ENV_PATH=./env/.integration.env npm run open:src',
+    launchTimeout: 10000,
+    port: 3000
   },
   browserContext: 'default'
 }
