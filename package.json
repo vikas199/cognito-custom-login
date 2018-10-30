@@ -27,7 +27,7 @@
     "build:preprod": "ENV_PATH=./env/.preprod.env babel-node tools/build.js && npm run open:dist",
     "build:production": "ENV_PATH=./env/.production.env babel-node tools/build.js && npm run open:dist",
     "license-dump": "license-checker --csv --out legal/licenses.csv",
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "test:CI": "babel-node tools/testCi.js",
     "test:cover": "npm run test -- --coverage ",
     "test:cover:CI": "npm run test:CI -- --coverage && cat ./coverage/lcov.info | node_modules/coveralls/bin/coveralls.js",
