@@ -7,7 +7,7 @@ module.exports = {
   server: {
     command: 'ENV_PATH=./env/.integration.env npm run open:src',
     launchTimeout: 10000,
-    port: 3000
+    port: 3005
   },
   browserContext: 'default'
 }

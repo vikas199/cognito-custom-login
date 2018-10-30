@@ -15,4 +15,4 @@ RUN apt-get update && apt-get install --no-install-recommends -y google-chrome-s
 
 RUN export CHROME_BIN=/usr/bin/google-chrome
 
-CMD sleep 120
+CMD sleep 600

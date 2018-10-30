@@ -3,7 +3,7 @@ const puppeteer = require('puppeteer')
 let browser
 let page
 
-const baseUrl = 'http://localhost:3000'
+const baseUrl = 'http://localhost:3005'
 
 beforeAll(async () => {
   // launch browser
@@ -43,5 +43,5 @@ describe('Login page', () => {
 
 // This function occurs after the result of each tests, it closes the browser
 afterAll(() => {
-  // browser.close()
+  browser.close()
 })
