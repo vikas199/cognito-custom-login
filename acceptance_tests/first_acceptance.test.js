@@ -43,5 +43,5 @@ describe('Login page', () => {
 
 // This function occurs after the result of each tests, it closes the browser
 afterAll(() => {
-  browser.close()
+  // browser.close()
 })
