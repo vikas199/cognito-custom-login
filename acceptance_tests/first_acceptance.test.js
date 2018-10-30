@@ -3,6 +3,8 @@ const puppeteer = require('puppeteer')
 let browser
 let page
 
+const baseUrl = 'http://localhost:3000'
+
 beforeAll(async () => {
   // launch browser
   browser = await puppeteer.launch(
@@ -14,11 +16,20 @@ beforeAll(async () => {
   page = await browser.newPage()
 })
 
-describe('Login', () => {
-  test('users can login', async () => {
-    await page.goto('http://localhost:3005')
+describe('Login page', () => {
+  test('loads successfully', async () => {
+    await page.goto(baseUrl)
+    await expect(page).toMatchElement('input', {name: 'email'})
+    await expect(page).toMatchElement('input', {name: 'password'})
+
+    await expect(page).toMatch('Log In')
+  })
+
+  xtest('users can login', async () => {
+    // test skipped
+    await page.goto(baseUrl)
     await page.click('input[name=email]')
-    await page.type('input[name=email]', 'y_test111+role1@outlook.com')
+    await page.type('input[name=email]', 'y0_test111+role1@outlook.com')
     await page.click('input[name=password]')
     await page.type('input[name=password]', 'Sunil@0575')
     const [response] = await Promise.all([
@@ -27,7 +38,7 @@ describe('Login', () => {
     ])
     await page.waitForSelector('#div-forgot-password-msg')
     await expect(page).toMatch('Account Verification')
-  }, 10000)
+  })
 })
 
 // This function occurs after the result of each tests, it closes the browser
